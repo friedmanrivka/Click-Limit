@@ -1,37 +1,3 @@
-<<<<<<< HEAD
-import { Request, Response } from 'express';
-import ListServices from './listService';
-import DBConnect from '../utils/db-connect';
-import ListDal from "../List/listDal";
-const dbConn = new DBConnect();
-await dbConn.init();
-const listDal = new ListDal(dbConn);
-const listServices = new ListServices(listDal);
-=======
-// import { Request, Response } from 'express';
-// import ListServices from './listService';
-// import DBConnect from '../utils/db-connect';
-// import ListDal from "./listDal";
-// const dbConn = new DBConnect();
-// await dbConn.init();
-// const listDal = new ListDal(dbConn);
-// const listServices = new ListServices(listDal);
->>>>>>> 526805d99b3d8a379748988d415bb2ffc64c0229
-
-// class ListController {
-//     public async getLists(req: Request, res: Response): Promise<void> {
-//         try {
-//             const filter = req.query || {};
-//             const lists = await listServices.getLists(filter);
-//             res.status(200).json(lists);
-//         } catch (error) {
-//             console.error('Error fetching lists:', error);
-//             res.status(500).json({ message: 'Internal Server Error' });
-//         }
-//     }
-// }
-
-// export default new ListController();
 import {List} from '../utils/type';
 import listService from './listService';
 import {Router,Request,Response} from 'express';
@@ -43,15 +9,36 @@ export default class ListApi{
     }
     private setRoutes()
     {
-        this.router.get ('/',async(req:Request,res:Response)=>{
-            try{
-                let results=Array<List>;
-                //TODO GET ALL SORRY BUT YOU DIDNT IMPLEMENT IT IN A CORRECT WAY
+        // this.router.get ('/',async(req:Request,res:Response)=>{
+        //     try{
+        //         let results=Array<List>;
+        //         //TODO GET ALL SORRY BUT YOU DIDNT IMPLEMENT IT IN A CORRECT WAY
+        //     }
+        // catch (err: any) {
+        //     return res.status(500).send(err.message); // Internal Server Error
+        // }
+        // }) ;
+        this.router.get('/description/:description', async (req: Request, res: Response) => {
+            try {
+                const { description } = req.params;
+                const lists: List[] = await this.listService.getListByDescription(description);
+                 if (lists.length === 0) {
+                    return res.status(404).send('No lists found with the given description.');
+                }
+
+                return res.status(200).json(lists);
+            } catch (err: any) {
+                return res.status(500).send(err.message);
             }
-        catch (err: any) {
-            return res.status(500).send(err.message); // Internal Server Error
-        }
-        }) ;
-    }
-   
+        });
+        this.router.get('/', async (req: Request, res: Response) => {
+            try {
+                const lists: List[] = await this.listService.getAllLists();
+                res.status(200).json(lists);
+            } catch (err: any) {
+                res.status(500).send(err.message);
+            }
+        });
+
+}
 }

@@ -2,7 +2,6 @@
 import express,{Application} from "express";
 import ListDal from "./list/listDal";
 import ListService from "./list/listService";
-// import ListApi from './list/listApi';
 import DBConnect from "./utils/db-connect";
 import ListApi from "./list/ListApi";
 const PORT=8080;
@@ -18,11 +17,16 @@ export default class App{
         const listService=new ListService(listDal);
         const listApi=new ListApi(listService);
         this.app=express();
+        this.app.use(express.json()); 
         this.app.use(LIST_API_ROUTE,listApi.router);
         this.app.listen(PORT,()=>{
             console.log("Server is up");
         });
 
 
+    }
+    
+     public async terminate() {
+        await this.dbConn?.terminate();
     }
 }
