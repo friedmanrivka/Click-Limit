@@ -10,7 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "example-package": "^0.0.1",
+    "express": "^4.19.2",
     "mongodb": "^6.7.0",
     "node-models": "^2.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.5"
   }
 }
