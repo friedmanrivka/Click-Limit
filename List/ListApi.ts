@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import ListServices from '../List/listService'
+import ListServices from '../List/listService';
 import DBConnect from '../utils/db-connect';
-import ListDal from "../List/listDal"
-
+import ListDal from "../List/listDal";
 const dbConn = new DBConnect();
+await dbConn.init();
 const listDal = new ListDal(dbConn);
 const listServices = new ListServices(listDal);
 
