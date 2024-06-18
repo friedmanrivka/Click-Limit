@@ -1,7 +1,6 @@
 export interface AppList{
 id: string;//appName
 description: string;
-
 }
 export interface List{
     name: string;
@@ -10,5 +9,5 @@ export interface List{
     creationDate: Date;
     updatedDate: Date;
     list:AppList[];
-    }
+}
     
