@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ListServices from '../List/listService';
+import ListServices from './listService';
 import DBConnect from '../utils/db-connect';
 import ListDal from "../List/listDal";
 const dbConn = new DBConnect();
