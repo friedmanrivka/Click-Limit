@@ -41,7 +41,7 @@ public async getAllLists(): Promise<List[]> {
         throw new Error(`Failed to get all lists from DB: ${err}`);
     }
 }
-public async deleteListById(id: string): Promise<boolean> {
+public async deleteListById(_id: string): Promise<boolean> {
     try {
         // const objectId = new ObjectId(id); // המרת ה-string ל-ObjectId
         const result = await this.collection.deleteOne({ _id: String });
@@ -60,4 +60,20 @@ public async deleteListById(id: string): Promise<boolean> {
         throw new Error(`Failed to delete List from DB: ${err}`);
     }
 }
+    public async addList(data: List): Promise<List> {
+        try {
+            const result = await this.collection.insertOne(data);
+            if (!result.acknowledged) {
+                throw new Error('Failed to insert list');
+            }
+            const insertedList = await this.collection.findOne({ _id: result.insertedId });
+            if (!insertedList) {
+                throw new Error('Failed to fetch inserted list');
+            }
+            return insertedList;
+            }
+        catch (err: any) {
+            throw new Error(`Failed to create list: ${err}`);
+        }
+      }
 }

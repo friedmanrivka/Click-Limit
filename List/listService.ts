@@ -20,6 +20,9 @@ export default class ListService{
 
         return await this.listDal.deleteListById(id)
     }
+    public async addList(data:List):Promise<List>{
+        return this.listDal.addList(data);
+      }
 }
     // public async getLists(filter: any): Promise<List[]> {
     //     return this.listDal.getLists(filter);

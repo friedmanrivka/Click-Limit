@@ -48,6 +48,24 @@ export default class ListApi{
                 res.status(500).send(`Failed to delete list: ${err.message}`);
             }
         });
+    
+        this.router.post('/add/', async (req: Request, res: Response) => {
+        try {
+            const { id, description, limit, creationDate,updatedDate, list} = req.body as List;
+            const ListData: List = {
+                id,
+                description,
+                limit,
+                creationDate,
+                updatedDate,
+                list
+            };
+            const newList = await this.listService.addList(ListData);
+            res.status(201).json(newList);
+        } catch (err: any) {
+            res.status(500).send(err.message);
+        }
     }
-
+    )
+    }
 }
