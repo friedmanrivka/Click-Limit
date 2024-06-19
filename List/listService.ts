@@ -15,6 +15,12 @@ export default class ListService{
     public async getAllLists(): Promise<List[]> {
         return this.listDal.getAllLists();
     }
+    public async updateLimit(id: string, newLimit: number): Promise<number | null> {
+        return await this.listDal.updateLimit(id, newLimit);
+    }
+    public async updateDescription(id: string, newDescription: string): Promise<string | null> {
+        return await this.listDal.updateDescription(id, newDescription);
+    }
     public async deleteList(id: string): Promise<boolean> {
         console.log("2");
 

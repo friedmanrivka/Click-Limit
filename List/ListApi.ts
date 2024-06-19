@@ -48,6 +48,38 @@ export default class ListApi{
                 res.status(500).send(`Failed to delete list: ${err.message}`);
             }
         });
+        this.router.put('/:id/limit', async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { limit } = req.body;
+                console.log(limit);
+                const updatedLimit = await this.listService.updateLimit(id, limit);
+                if (updatedLimit !== null) {
+                    res.status(200).json({ updatedLimit });
+                } else {
+                    res.status(404).json({ message: 'List not found' });
+                }
+            } catch (err: any) {
+                console.error(`Error updating limit for ID: `, err); // Log for debugging
+                res.status(500).send(err.message); // Internal Server Error
+            }
+        });
+        this.router.put('/:id/description', async (req: Request, res: Response) => {
+            try {
+                const { id } = req.params;
+                const { description } = req.body;
+                console.log(description);
+                const updatedDescription = await this.listService.updateDescription(id, description);
+                if (updatedDescription !== null) {
+                    res.status(200).json({ updatedDescription });
+                } else {
+                    res.status(404).json({ message: 'List not found' });
+                }
+            } catch (err: any) {
+                console.error(`Error updating limit for ID: `, err); // Log for debugging
+                res.status(500).send(err.message); // Internal Server Error
+            }
+        });
     
         this.router.post('/add/', async (req: Request, res: Response) => {
         try {
@@ -66,6 +98,7 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     }
+    
     )
     }
 }

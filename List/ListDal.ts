@@ -41,6 +41,42 @@ public async getAllLists(): Promise<List[]> {
         throw new Error(`Failed to get all lists from DB: ${err}`);
     }
 }
+public async updateLimit(id: string, newLimit: number): Promise<number | null> {
+    try {
+        const result = await this.collection.findOneAndUpdate(
+            { id: String }, // Use string ID directly
+            { $set: { limit: newLimit, updatedDate: new Date() } },
+            { returnDocument: 'after' } // Return the updated document
+        );
+        
+        // Check if the result is null
+        if (result?.limit) {
+            return result.limit;
+        } else {
+            return null; // Return null if the document was not found
+        }
+    } catch (err: any) {
+        throw new Error(`Failed to update limit: ${err}`);
+    }
+}
+public async updateDescription(id: string, newDescription: string): Promise<string | null> {
+    try {
+        const result = await this.collection.findOneAndUpdate(
+            { id: String }, // Use string ID directly
+            { $set: { description: newDescription, updatedDate: new Date() } },
+            { returnDocument: 'after' } // Return the updated document
+        );
+        
+        // Check if the result is null
+        if (result?.description) {
+            return result.description;
+        } else {
+            return null; // Return null if the document was not found
+        }
+    } catch (err: any) {
+        throw new Error(`Failed to update description: ${err}`);
+    }
+}
 public async deleteListById(_id: string): Promise<boolean> {
     try {
         // const objectId = new ObjectId(id); // המרת ה-string ל-ObjectId
