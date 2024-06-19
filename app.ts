@@ -1,9 +1,9 @@
 
 import express,{Application} from "express";
-import ListDal from "./list/listDal";
-import ListService from "./list/listService";
+import ListDal from "./List/ListDal";
+import ListService from "./List/listService";
 import DBConnect from "./utils/db-connect";
-import ListApi from "./list/ListApi";
+import ListApi from "./List/ListApi";
 const PORT=8080;
 const LIST_API_ROUTE='/api/list';
 export default class App{

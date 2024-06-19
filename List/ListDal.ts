@@ -1,4 +1,4 @@
-import { Collection } from "mongodb";
+import { Collection,ObjectId } from "mongodb";
 import { List } from "../utils/type";
 import DBConnect from "../utils/db-connect"
 const LIST_COLLECTION_NAME = 'AdvertismentPlaces';
@@ -39,6 +39,25 @@ public async getAllLists(): Promise<List[]> {
         return await this.collection.find().toArray();
     } catch (err: any) {
         throw new Error(`Failed to get all lists from DB: ${err}`);
+    }
+}
+public async deleteListById(id: string): Promise<boolean> {
+    try {
+        // const objectId = new ObjectId(id); // המרת ה-string ל-ObjectId
+        const result = await this.collection.deleteOne({ _id: String });
+        console.log("1");
+
+        if (result.deletedCount === 1) {
+            console.log("good")
+            return true; // מחיקה הצליחה
+        } else {
+
+            return false; // לא נמצא מסמך למחיקה
+        }
+    } catch (err: any) {
+        console.log("gohod")
+
+        throw new Error(`Failed to delete List from DB: ${err}`);
     }
 }
 }

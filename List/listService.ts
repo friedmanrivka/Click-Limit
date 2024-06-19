@@ -1,6 +1,6 @@
 
 import { List } from '../utils/type';
-import ListDal from './listDal'
+import ListDal from './ListDal';
 
 
 export default class ListService{
@@ -15,7 +15,11 @@ export default class ListService{
     public async getAllLists(): Promise<List[]> {
         return this.listDal.getAllLists();
     }
-  
+    public async deleteList(id: string): Promise<boolean> {
+        console.log("2");
+
+        return await this.listDal.deleteListById(id)
+    }
 }
     // public async getLists(filter: any): Promise<List[]> {
     //     return this.listDal.getLists(filter);
