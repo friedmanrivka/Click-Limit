@@ -3,7 +3,7 @@ id: string;//appName
 description: string;
 }
 export interface List{
-    name: string;
+    id: string;
     description: string;
     limit: number;
     creationDate: Date;

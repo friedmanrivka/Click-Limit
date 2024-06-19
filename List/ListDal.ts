@@ -1,7 +1,7 @@
 import { Collection } from "mongodb";
 import { List } from "../utils/type";
 import DBConnect from "../utils/db-connect"
-const LIST_COLLECTION_NAME = 'List';
+const LIST_COLLECTION_NAME = 'AdvertismentPlaces';
 export default  class ListDal{
     private collection : Collection<List>;
     constructor(dbConn : DBConnect ){

@@ -9,15 +9,6 @@ export default class ListApi{
     }
     private setRoutes()
     {
-        // this.router.get ('/',async(req:Request,res:Response)=>{
-        //     try{
-        //         let results=Array<List>;
-        //         //TODO GET ALL SORRY BUT YOU DIDNT IMPLEMENT IT IN A CORRECT WAY
-        //     }
-        // catch (err: any) {
-        //     return res.status(500).send(err.message); // Internal Server Error
-        // }
-        // }) ;
         this.router.get('/description/:description', async (req: Request, res: Response) => {
             try {
                 const { description } = req.params;
