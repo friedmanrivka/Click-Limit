@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import _ from 'lodash';
 
-export default function validateListData(req: Request, res: Response, next: NextFunction) {
+export  function validateListData(req: Request, res: Response, next: NextFunction) {
     const { id, description, limit, creationDate, updatedDate, list } = req.body;
 
     if (!_.isString(id) || _.isEmpty(id)) {
@@ -29,5 +29,20 @@ export default function validateListData(req: Request, res: Response, next: Next
     }
 
     res.locals.listData = { id, description, limit, creationDate, updatedDate, list };
+    
+    next();
+}
+export function validateAppData(req: Request, res: Response, next: NextFunction) {
+    const { id, description } = req.body;
+
+    if (!_.isString(id) || _.isEmpty(id)) {
+        return res.status(400).send('App ID is missing or in bad format');
+    }
+
+    if (!_.isString(description) || _.isEmpty(description)) {
+        return res.status(400).send('App description is missing or in bad format');
+    }
+
+    res.locals.appData = { id, description };
     next();
 }

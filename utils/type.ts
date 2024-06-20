@@ -10,4 +10,3 @@ export interface List{
     updatedDate: Date;
     list:AppList[];
 }
-

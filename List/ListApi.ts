@@ -1,8 +1,7 @@
 import {List} from '../utils/type';
-import validateListData from './middlewares';
-import listService from './listService';
+import {validateListData ,validateAppData}from './middlewares';
 
-// import { validateListData } from '../list/middlweare/validateListData'; 
+import listService from './listService';
 import {Router,Request,Response} from 'express';
 import ListService from './listService';
 export default class ListApi{
@@ -13,6 +12,9 @@ export default class ListApi{
     }
     private setRoutes()
     {
+        
+        //#region  Get functions include getBy
+        
         
         this.router.get('/description/:description', async (req: Request, res: Response) => {
             try {
@@ -63,6 +65,7 @@ export default class ListApi{
                 return res.status(500).send(err.message);
             }
         });
+        
         this.router.get('/convert', async (req: Request, res: Response) => {
             try {
                 const result = await this.listService.convertListToString();
@@ -71,24 +74,7 @@ export default class ListApi{
                 res.status(500).send(`Failed to convert list: ${err.message}`);
             }
         });
-        // this.router.delete('/deleteRecord/:id', async (req: Request, res: Response) => {
-        //     try {
-        //         console.log("3");
-
-        //         const { id } = req.params;
-        //         console.log("id:",id);
-
-        //         const success = await this.listService.deleteList(id);
-        
-        //         if (success) {
-        //             res.status(200).send('Main Record deleted');
-        //         } else {
-        //             res.status(404).send('Record not found');
-        //         }
-        //     } catch (err: any) {
-        //         res.status(500).send(`Failed to delete list: ${err.message}`);
-        //     }
-        // });
+       
         this.router.put('/:id/limit', async (req: Request, res: Response) => {
             try {
                 const { id } = req.params;
@@ -134,6 +120,36 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     });
+    this.router.post('/:id/app', validateAppData, async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const app = res.locals.appData;
+            const updatedList: List = await this.listService.addAppToList(id, app);
+            res.status(200).json(updatedList);
+        } catch (err: any) {
+            res.status(500).send(err.message);
+        }
+    });
   
     }
-}    
+}   
+
+
+// this.router.delete('/deleteRecord/:id', async (req: Request, res: Response) => {
+        //     try {
+        //         console.log("3");
+
+        //         const { id } = req.params;
+        //         console.log("id:",id);
+
+        //         const success = await this.listService.deleteList(id);
+        
+        //         if (success) {
+        //             res.status(200).send('Main Record deleted');
+        //         } else {
+        //             res.status(404).send('Record not found');
+        //         }
+        //     } catch (err: any) {
+        //         res.status(500).send(`Failed to delete list: ${err.message}`);
+        //     }
+        // });

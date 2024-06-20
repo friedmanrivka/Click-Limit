@@ -1,6 +1,5 @@
-import { Collection,ObjectId } from "mongodb";
-import { List } from "../utils/type";
-import { AppList } from "../utils/type";
+import { Collection } from "mongodb";
+import { List ,AppList} from "../utils/type";
 import DBConnect from "../utils/db-connect"
 const LIST_COLLECTION_NAME = 'AdvertismentPlaces';
 export default  class ListDal{
@@ -51,12 +50,11 @@ public async updateLimit(id: string, newLimit: number): Promise<number | null> {
             { $set: { limit: newLimit, updatedDate: new Date() } },
             { returnDocument: 'after' } // Return the updated document
         );
-        
-        // Check if the result is null
+      
         if (result?.limit) {
             return result.limit;
         } else {
-            return null; // Return null if the document was not found
+            return null; 
         }
     } catch (err: any) {
         throw new Error(`Failed to update limit: ${err}`);
@@ -65,16 +63,15 @@ public async updateLimit(id: string, newLimit: number): Promise<number | null> {
 public async updateDescription(id: string, newDescription: string): Promise<string | null> {
     try {
         const result = await this.collection.findOneAndUpdate(
-            { id: String }, // Use string ID directly
+            { id: String }, 
             { $set: { description: newDescription, updatedDate: new Date() } },
-            { returnDocument: 'after' } // Return the updated document
+            { returnDocument: 'after' } 
         );
-        
-        // Check if the result is null
+      
         if (result?.description) {
             return result.description;
         } else {
-            return null; // Return null if the document was not found
+            return null; 
         }
     } catch (err: any) {
         throw new Error(`Failed to update description: ${err}`);
@@ -82,16 +79,15 @@ public async updateDescription(id: string, newDescription: string): Promise<stri
 }
 public async deleteListById(_id: string): Promise<boolean> {
     try {
-        // const objectId = new ObjectId(id); // המרת ה-string ל-ObjectId
         const result = await this.collection.deleteOne({ _id: String });
         console.log("1");
 
         if (result.deletedCount === 1) {
             console.log("good")
-            return true; // מחיקה הצליחה
+            return true; 
         } else {
 
-            return false; // לא נמצא מסמך למחיקה
+            return false; 
         }
     } catch (err: any) {
         console.log("gohod")
@@ -111,20 +107,118 @@ public async convertListToString(): Promise<string> {
         throw new Error(`Failed to convert lists to string: ${err}`);
     }
 }
-    public async addList(data: List): Promise<List> {
-        try {
-            const result = await this.collection.insertOne(data);
-            if (!result.acknowledged) {
-                throw new Error('Failed to insert list');
-            }
-            const insertedList = await this.collection.findOne({ _id: result.insertedId });
-            if (!insertedList) {
-                throw new Error('Failed to fetch inserted list');
-            }
-            return insertedList;
-            }
-        catch (err: any) {
-            throw new Error(`Failed to create list: ${err}`);
+public async addList(data: List): Promise<List> {
+    try {
+    const result = await this.collection.insertOne(data);
+    if (!result.acknowledged) {
+    throw new Error('Failed to insert list');
+    }
+    const insertedList = await this.collection.findOne({ _id: result.insertedId });
+    if (!insertedList) {
+    throw new Error('Failed to fetch inserted list');//TODO for tostring
+    }
+    return insertedList;
+    }
+    catch (err: any) {
+    throw new Error('Failed to create list: ${err}');
+  
+    }
+    }
+    public async addAppToList(id: string, app: AppList): Promise<List> {
+        const listExists = await this.getListById(id);
+        if (!listExists) {
+            throw new Error('No matching list found');
         }
-      }
-}
+        const appExists = await this.collection.findOne({ "list.id": app.id });
+        if (appExists) {
+            throw new Error('An app with the same ID already exists in a list');
+        }
+        try {
+            const updateResult = await this.collection.updateOne(
+                { id:id },
+                { $push: { list: app } }
+            );
+
+            if (updateResult.modifiedCount === 0) {
+                throw new Error('No matching list found or no update performed');
+            }
+
+            const updatedList = await this.collection.findOne({ id });
+            if (!updatedList) {
+                throw new Error('Failed to retrieve updated list');
+            }
+
+            return updatedList;
+        } catch (err: any) {
+            throw new Error(`Failed to add app to list in DB: ${err.message}`);
+        }
+    }
+    }
+
+// public async addList(data: List): Promise<List> {
+//     try {
+//     const result = await this.collection.insertOne(data);
+//     if (!result.acknowledged) {
+//     throw new Error('Failed to insert list');
+//     }
+//     const insertedList = await this.collection.findOne({ _id: result.insertedId });
+//     if (!insertedList) {
+//     throw new Error('Failed to fetch inserted list');
+//     }
+//     return insertedList;
+//     }
+
+    // public async addList(data: List): Promise<List> {
+    //     try {
+    //         const result = await this.collection.insertOne(data);
+    //         if (!result.acknowledged) {
+    //             throw new Error('Failed to insert list');
+    //         }
+    //         const insertedList = await this.collection.findOne({ _id: result.insertedId });
+    //         if (!insertedList) {
+    //             throw new Error('Failed to fetch inserted list');
+    //         }
+    //         return insertedList;
+    //         }
+    //     catch (err: any) {
+    //         throw new Error(`Failed to create list: ${err}`);
+    //     }
+    //   }
+    //   public async addAppToList(id: string, app: AppList): Promise<List> {
+    //     try {
+    //         const result = await this.collection.findOneAndUpdate(
+    //             { id },
+    //             { $push: { list: app } },
+    //             { returnDocument: 'after' }
+    //         );
+
+    //         return result.value ;
+    //     } catch (err: any) {
+    //         throw new Error(`Failed to add app to list in DB: ${err}`);
+    //     }
+    // }
+  
+    // public async addAppToList(id: string, app: AppList): Promise<List> {
+    //     try {
+    //         const updateResult = await this.collection.updateOne(
+    //             { id },
+    //             { $push: { list: app } }
+    //         );
+
+    //         if (updateResult.modifiedCount === 0) {
+    //             throw new Error('No matching list found or no update performed');
+    //         }
+
+    //         const updatedList = await this.collection.findOne({ id });
+    //         if (!updatedList) {
+    //             throw new Error('Failed to retrieve updated list');
+    //         }
+
+    //         return updatedList;
+    //     } catch (err: any) {
+    //         throw new Error(`Failed to add app to list in DB: ${err.message}`);
+    //     }
+    // }
+    
+
+

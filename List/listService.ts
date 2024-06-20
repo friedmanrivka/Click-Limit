@@ -1,14 +1,12 @@
 
-import { List } from '../utils/type';
-import ListDal from './listDal';
+import { AppList, List } from '../utils/type';
+import ListDal from './listDal' 
 
 
 export default class ListService{
     constructor(private listDal: ListDal) {}
 
-    // public async getByDescription(description: string): Promise<List[]> {
-    //     return await this.listDal.getByDescription(description);
-    //   }
+  
     public async getListByDescription(description: string): Promise<List[]> {
         return this.listDal.getListByDescription(description);
     }
@@ -40,6 +38,13 @@ export default class ListService{
     public async addList(data:List):Promise<List>{
         return this.listDal.addList(data);
       }
+    //   public async addList2(data:List,app:AppList):Promise<List>{
+    //     // return this.listDal.addList(data);
+    //     return this.listDal.
+    //   }
+      public async addAppToList(id: string, app: AppList): Promise<List> {
+        return this.listDal.addAppToList(id, app);
+    }
 }
     // public async getLists(filter: any): Promise<List[]> {
     //     return this.listDal.getLists(filter);
