@@ -30,6 +30,14 @@ export default class ListApi{
                 res.status(500).send(err.message);
             }
         });
+        this.router.get('/convert', async (req: Request, res: Response) => {
+            try {
+                const result = await this.listService.convertListToString();
+                res.status(200).send(result);
+            } catch (err: any) {
+                res.status(500).send(`Failed to convert list: ${err.message}`);
+            }
+        });
         this.router.delete('/deleteRecord/:id', async (req: Request, res: Response) => {
             try {
                 console.log("3");

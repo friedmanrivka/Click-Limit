@@ -18,6 +18,9 @@ export default class ListService{
     public async updateLimit(id: string, newLimit: number): Promise<number | null> {
         return await this.listDal.updateLimit(id, newLimit);
     }
+    public async convertListToString(): Promise<string> {
+        return  this.listDal.convertListToString();
+    } 
     public async updateDescription(id: string, newDescription: string): Promise<string | null> {
         return await this.listDal.updateDescription(id, newDescription);
     }

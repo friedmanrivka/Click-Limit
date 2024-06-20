@@ -8,7 +8,7 @@ export default class AppListApi{
         this.setRoutes()
     }
 private setRoutes(){
-    this.router.get()
+    // this.router.get()
     
 }
 }

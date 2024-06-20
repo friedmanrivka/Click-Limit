@@ -1,5 +1,6 @@
 import { Collection,ObjectId } from "mongodb";
 import { List } from "../utils/type";
+import { AppList } from "../utils/type";
 import DBConnect from "../utils/db-connect"
 const LIST_COLLECTION_NAME = 'AdvertismentPlaces';
 export default  class ListDal{
@@ -94,6 +95,18 @@ public async deleteListById(_id: string): Promise<boolean> {
         console.log("gohod")
 
         throw new Error(`Failed to delete List from DB: ${err}`);
+    }
+}
+public async convertListToString(): Promise<string> {
+    try {
+        const lists = await this.getAllLists();
+        const items = lists.map((list: List) => {
+            const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
+            return `List ID: ${list.id}, Description: ${list.description}, Limit: ${list.limit}, Creation Date: ${list.creationDate}, Updated Date: ${list.updatedDate}, Apps: [${appListItems}]`;
+        });
+        return items.join(" | ");
+    } catch (err: any) {
+        throw new Error(`Failed to convert lists to string: ${err}`);
     }
 }
     public async addList(data: List): Promise<List> {
