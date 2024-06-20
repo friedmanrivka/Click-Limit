@@ -12,6 +12,14 @@ export default class ListService{
     public async getListByDescription(description: string): Promise<List[]> {
         return this.listDal.getListByDescription(description);
     }
+    public async getListByLimit(limit: number) {
+      
+        return this.listDal.getListByLimit(limit);
+    }
+    public async getListById(id: string) {
+     
+        return this.listDal.getListById(id);
+    }
     public async getAllLists(): Promise<List[]> {
         return this.listDal.getAllLists();
     }
