@@ -1,6 +1,6 @@
 
 import { List } from '../utils/type';
-import ListDal from './ListDal';
+import ListDal from './listDal';
 
 
 export default class ListService{

@@ -1,9 +1,13 @@
 import {List} from '../utils/type';
+import validateListData from './middlewares';
 import listService from './listService';
+
+// import { validateListData } from '../list/middlweare/validateListData'; 
 import {Router,Request,Response} from 'express';
+import ListService from './listService';
 export default class ListApi{
     public router:Router;
-    constructor(private listService: listService) {
+    constructor(private listService: ListService) {
         this.router = Router();
         this.setRoutes();
     }
@@ -89,24 +93,44 @@ export default class ListApi{
             }
         });
     
-        this.router.post('/add/', async (req: Request, res: Response) => {
+
+    this.router.post('/', validateListData, async (req: Request, res: Response) => {
+        console.log('api')
         try {
-            const { id, description, limit, creationDate,updatedDate, list} = req.body as List;
-            const ListData: List = {
-                id,
-                description,
-                limit,
-                creationDate,
-                updatedDate,
-                list
-            };
-            const newList = await this.listService.addList(ListData);
+            const listData = res.locals.listData;
+       
+            const newList=await this.listService.addList(listData    );
             res.status(201).json(newList);
         } catch (err: any) {
             res.status(500).send(err.message);
         }
+    });
+  
     }
+}    //     this.router.post('/', async (req: Request, res: Response) => {
+    //     try {
+    //         const { id, description, limit, creationDate,updatedDate, list} = req.body as List;
+    //         const ListData: List = {
+    //             id,
+    //             description,
+    //             limit,
+    //             creationDate,
+    //             updatedDate,
+    //             list
+    //         };
+    //         const newList = await this.listService.addList(ListData);
+    //         res.status(201).json(newList);
+    //     } catch (err: any) {
+    //         res.status(500).send(err.message);
+    //     }
+    // }
     
-    )
-    }
-}
+    // )  // this.router.post('/', validateListData, async (req: Request, res: Response) => {
+    //     try {
+    //         const listData = res.locals.listData as List;
+    //         const newList = await listService.addList(listData);
+    //         res.status(201).json(newList);
+    //     } catch (err: any) {
+    //         res.status(500).send(err.message);
+    //     }
+    // });

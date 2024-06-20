@@ -1,6 +1,6 @@
 
 import express,{Application} from "express";
-import ListDal from "./List/ListDal";
+import ListDal from "./List/listDal";
 import ListService from "./List/listService";
 import DBConnect from "./utils/db-connect";
 import ListApi from "./List/ListApi";

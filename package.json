@@ -11,8 +11,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/lodash": "^4.17.5",
     "example-package": "^0.0.1",
     "express": "^4.19.2",
+    "lodash": "^4.17.21",
     "mongodb": "^6.7.0",
     "node-models": "^2.1.5"
   },
