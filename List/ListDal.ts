@@ -80,10 +80,7 @@ public async updateDescription(id: string, newDescription: string): Promise<stri
 public async deleteListById(delete1: string): Promise<boolean> {
     try {
         const result = await this.collection.deleteOne({ id: delete1 }); // השתמש ב-ObjectId כדי להמיר את המחרוזת ל-ID
-
-        console.log(result);
         if (result.deletedCount === 1) {
-            console.log("good")
             return true; // מחיקה הצליחה
         } else {
             return false; // לא נמצא מסמך למחיקה
@@ -111,7 +108,6 @@ public async convertListToString(): Promise<string> {
             const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
             return `List ID:Apps: [${appListItems}]`;
             // return `List ID: ${list.id}, Description: ${list.description}, Limit: ${list.limit}, Creation Date: ${list.creationDate}, Updated Date: ${list.updatedDate}, Apps: [${appListItems}]`;
-
         });
         return items.join(" | ");
     } catch (err: any) {
