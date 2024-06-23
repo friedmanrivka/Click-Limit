@@ -153,7 +153,63 @@ public async addList(data: List): Promise<List> {
             throw new Error(`Failed to add app to list in DB: ${err.message}`);
         }
     }
+    public async updateAppDescription(id: string, appId: string, newDescription: string): Promise<List> {
+        const listExists = await this.getListById(id);
+        if (!listExists) {
+            throw new Error('No matching list found');
+        }
+
+        const appExists = listExists.list.find(app => app.id === appId);
+        if (!appExists) {
+            throw new Error('No matching app found in the list');
+        }
+
+        try {
+            const updateResult = await this.collection.updateOne(
+                { id, "list.id": appId },
+                {
+                    $set: {
+                        "list.$.description": newDescription,
+                        "updatedDate": new Date()
+                    }
+                }
+            );
+
+            if (updateResult.modifiedCount === 0) {
+                throw new Error('No matching app found or no update performed');
+            }
+
+            const updatedList = await this.collection.findOne({ id });
+            if (!updatedList) {
+                throw new Error('Failed to retrieve updated list');
+            }
+
+            return updatedList;
+        } catch (err: any) {
+            throw new Error(`Failed to update app description in DB: ${err.message}`);
+        }
     }
+    public async searchAppByKeyword(keyword: string): Promise<AppList[]> {
+        try {
+            const lists = await this.collection.find({}).toArray();
+            const matchingApps: AppList[] = [];
+
+            lists.forEach((list: List) => {
+                list.list.forEach((app: AppList) => {
+                    if (app.description.toLowerCase().includes(keyword.toLowerCase())) {
+                        matchingApps.push(app);
+                    }
+                });
+            });
+
+            return matchingApps;
+        } catch (err: any) {
+            throw new Error(`Failed to search apps by keyword from DB: ${err}`);
+        }
+    }
+}
+    
+    
 
 // public async addList(data: List): Promise<List> {
 //     try {

@@ -1,4 +1,4 @@
-import {List} from '../utils/type';
+import {AppList, List} from '../utils/type';
 import {validateListData ,validateAppData}from './middlewares';
 
 import listService from './listService';
@@ -128,6 +128,30 @@ export default class ListApi{
             res.status(200).json(updatedList);
         } catch (err: any) {
             res.status(500).send(err.message);
+        }
+    });
+    this.router.put('/id/:id/app/:appId/description', async (req: Request, res: Response) => {
+        try {
+            const { id, appId } = req.params;
+            const { description } = req.body;
+            const updatedList = await this.listService.updateAppDescription(id, appId, description);
+            res.status(200).json(updatedList);
+        } catch (err: any) {
+            res.status(500).send(err.message);
+        }
+    });
+    this.router.get('/search/:keyword', async (req: Request, res: Response) => {
+        try {
+            const { keyword } = req.params;
+            const matchingApps: AppList[] = await this.listService.searchAppByKeyword(keyword);
+            
+            // if (matchingApps.length === 0) {
+            //     return res.status(404).send('No apps found with the given keyword.');
+            // }
+
+            return res.status(200).json(matchingApps);
+        } catch (err: any) {
+            return res.status(500).send(err.message);
         }
     });
   

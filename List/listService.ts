@@ -1,6 +1,6 @@
 
 import { AppList, List } from '../utils/type';
-import ListDal from './listDal' 
+import ListDal from "./ListDal" 
 
 
 export default class ListService{
@@ -45,6 +45,14 @@ export default class ListService{
       public async addAppToList(id: string, app: AppList): Promise<List> {
         return this.listDal.addAppToList(id, app);
     }
+    public async updateAppDescription(id: string, appId: string, newDescription: string): Promise<List> {
+        return this.listDal.updateAppDescription(id, appId, newDescription);
+    }
+    public async searchAppByKeyword(keyword: string): Promise<AppList[]> {
+        return this.listDal.searchAppByKeyword(keyword);
+    }
+
+
 }
     // public async getLists(filter: any): Promise<List[]> {
     //     return this.listDal.getLists(filter);
