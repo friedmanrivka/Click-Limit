@@ -46,3 +46,12 @@ export function validateAppData(req: Request, res: Response, next: NextFunction)
     res.locals.appData = { id, description };
     next();
 }
+export function validateDeleteRequest(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+
+    if (!_.isString(id) || _.isEmpty(id)) {
+        return res.status(400).send('ID is missing or in bad format');
+    }
+
+    next();
+}

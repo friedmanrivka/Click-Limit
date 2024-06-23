@@ -1,5 +1,5 @@
 import {AppList, List} from '../utils/type';
-import {validateListData ,validateAppData}from './middlewares';
+import {validateListData ,validateAppData,validateDeleteRequest}from './middlewares';
 
 import listService from './listService';
 import {Router,Request,Response} from 'express';
@@ -140,7 +140,7 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     });
-    this.router.delete('/:id', async (req: Request, res: Response) => {
+    this.router.delete('/:id', validateDeleteRequest,async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             console.log("id:",id);
