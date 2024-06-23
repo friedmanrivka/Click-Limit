@@ -1,5 +1,5 @@
 import {AppList, List} from '../utils/type';
-import {validateListData ,validateAppData,validateDeleteRequest}from './middlewares';
+import {validateListData ,validateAppData,validateId}from './middlewares';
 
 import listService from './listService';
 import {Router,Request,Response} from 'express';
@@ -14,8 +14,17 @@ export default class ListApi{
     {
         
         //#region  Get functions include getBy
-        
-        
+        //#region GetAll
+        this.router.get('/', async (req: Request, res: Response) => {
+            try {
+                const lists: List[] = await this.listService.getAllLists();
+                res.status(200).json(lists);
+            } catch (err: any) {
+                res.status(500).send(err.message);
+            }
+        });
+        //#endregion
+        //#region getById/description/limit
         this.router.get('/description/:description', async (req: Request, res: Response) => {
             try {
                 const { description } = req.params;
@@ -29,14 +38,7 @@ export default class ListApi{
                 return res.status(500).send(err.message);
             }
         });
-        this.router.get('/', async (req: Request, res: Response) => {
-            try {
-                const lists: List[] = await this.listService.getAllLists();
-                res.status(200).json(lists);
-            } catch (err: any) {
-                res.status(500).send(err.message);
-            }
-        });
+       
         this.router.get('/limit/:limit', async (req: Request, res: Response) => {
             const { limit } = req.params;
             try {
@@ -65,17 +67,12 @@ export default class ListApi{
                 return res.status(500).send(err.message);
             }
         });
-        
-        this.router.get('/convert', async (req: Request, res: Response) => {
-            try {
-                const result = await this.listService.convertListToString();
-                res.status(200).send(result);
-            } catch (err: any) {
-                res.status(500).send(`Failed to convert list: ${err.message}`);
-            }
-        });
+        //#endregion
+    //#endregion
        
-        this.router.put('/:id/limit', async (req: Request, res: Response) => {
+       //#region UpdateByLimit/description
+      //#region Update
+       this.router.put('/:id/limit', async (req: Request, res: Response) => {
             try {
                 const { id } = req.params;
                 const { limit } = req.body;
@@ -91,6 +88,7 @@ export default class ListApi{
                 res.status(500).send(err.message); // Internal Server Error
             }
         });
+        
         this.router.put('/:id/description', async (req: Request, res: Response) => {
             try {
                 const { id } = req.params;
@@ -109,7 +107,9 @@ export default class ListApi{
         });
     
 
-    this.router.post('/', validateListData, async (req: Request, res: Response) => {
+       //#endregion 
+   //#region Add
+       this.router.post('/', validateListData, async (req: Request, res: Response) => {
         console.log('api')
         try {
             const listData = res.locals.listData;
@@ -130,6 +130,8 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     });
+    //#endregion
+  //#region Update
     this.router.put('/id/:id/app/:appId/description', async (req: Request, res: Response) => {
         try {
             const { id, appId } = req.params;
@@ -140,7 +142,9 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     });
-    this.router.delete('/:id', validateDeleteRequest,async (req: Request, res: Response) => {
+    //#endregion
+    //#region DeleteList
+    this.router.delete('/:id',validateId,async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
             console.log("id:",id);
@@ -154,6 +158,8 @@ export default class ListApi{
             res.status(500).send(`Failed to delete list: ${err.message}`);
         }
     });
+    //#endregion
+    //#region AyalaAndYeudit
     this.router.get('/convert', async (req: Request, res: Response) => {
         try {
             const result = await this.listService.convertListToString();
@@ -172,6 +178,7 @@ export default class ListApi{
             res.status(500).send(`Failed to convert list: ${err.message}`);
         }
     });
+    
     this.router.get('/search/:keyword', async (req: Request, res: Response) => {
         try {
             const { keyword } = req.params;
@@ -184,6 +191,27 @@ export default class ListApi{
             return res.status(200).json(matchingApps);
         } catch (err: any) {
             return res.status(500).send(err.message);
+        }
+    });
+    
+    this.router.get('/convert', async (req: Request, res: Response) => {
+        try {
+            const result = await this.listService.convertListToString();
+            res.status(200).send(result);
+        } catch (err: any) {
+            res.status(500).send(`Failed to convert list: ${err.message}`);
+        }
+    });
+    
+  
+  
+    this.router.delete('/:listId/app/:appId',validateId, async (req: Request, res: Response) => {
+        try {
+            const { listId, appId } = req.params;
+            const updatedList: List = await this.listService.deleteAppFromList(listId, appId);
+            res.status(200).json(updatedList);
+        } catch (err: any) {
+            res.status(500).send(err.message);
         }
     });
   
