@@ -140,6 +140,38 @@ export default class ListApi{
             res.status(500).send(err.message);
         }
     });
+    this.router.delete('/:id', async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            console.log("id:",id);
+            const success = await this.listService.deleteList(id);
+            if (success) {
+                res.status(200).send('Main Record deleted');
+            } else {
+                res.status(404).send('Record not found');
+            }
+        } catch (err: any) {
+            res.status(500).send(`Failed to delete list: ${err.message}`);
+        }
+    });
+    this.router.get('/convert', async (req: Request, res: Response) => {
+        try {
+            const result = await this.listService.convertListToString();
+            res.status(200).send(result);
+        } catch (err: any) {
+            res.status(500).send(`Failed to convert list: ${err.message}`);
+        }
+    });
+    this.router.get('/isStringInList/:i', async (req: Request, res: Response) => {
+        try {
+            const { i } = req.params;
+
+            const result = await this.listService.isStringInList(i);
+            res.status(200).send(result);
+        } catch (err: any) {
+            res.status(500).send(`Failed to convert list: ${err.message}`);
+        }
+    });
     this.router.get('/search/:keyword', async (req: Request, res: Response) => {
         try {
             const { keyword } = req.params;
@@ -159,21 +191,3 @@ export default class ListApi{
 }   
 
 
-// this.router.delete('/deleteRecord/:id', async (req: Request, res: Response) => {
-        //     try {
-        //         console.log("3");
-
-        //         const { id } = req.params;
-        //         console.log("id:",id);
-
-        //         const success = await this.listService.deleteList(id);
-        
-        //         if (success) {
-        //             res.status(200).send('Main Record deleted');
-        //         } else {
-        //             res.status(404).send('Record not found');
-        //         }
-        //     } catch (err: any) {
-        //         res.status(500).send(`Failed to delete list: ${err.message}`);
-        //     }
-        // });

@@ -77,22 +77,31 @@ public async updateDescription(id: string, newDescription: string): Promise<stri
         throw new Error(`Failed to update description: ${err}`);
     }
 }
-public async deleteListById(_id: string): Promise<boolean> {
+public async deleteListById(delete1: string): Promise<boolean> {
     try {
-        const result = await this.collection.deleteOne({ _id: String });
-        console.log("1");
+        const result = await this.collection.deleteOne({ id: delete1 }); // השתמש ב-ObjectId כדי להמיר את המחרוזת ל-ID
 
+        console.log(result);
         if (result.deletedCount === 1) {
             console.log("good")
-            return true; 
+            return true; // מחיקה הצליחה
         } else {
-
-            return false; 
+            return false; // לא נמצא מסמך למחיקה
         }
     } catch (err: any) {
-        console.log("gohod")
-
         throw new Error(`Failed to delete List from DB: ${err}`);
+    }
+}
+public async isStringInList(searchString: string): Promise<boolean> {
+    try {
+        const list = await this.convertListToString();
+        if (!list) {
+            throw new Error('List not found');
+        }
+        // בדיקה אם המחרוזת המבוקשת קיימת במחרוזת המיוצאת
+        return list.includes(searchString);
+    } catch (err: any) {
+        throw new Error(`Failed to check string in list: ${err}`);
     }
 }
 public async convertListToString(): Promise<string> {
@@ -100,7 +109,9 @@ public async convertListToString(): Promise<string> {
         const lists = await this.getAllLists();
         const items = lists.map((list: List) => {
             const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
-            return `List ID: ${list.id}, Description: ${list.description}, Limit: ${list.limit}, Creation Date: ${list.creationDate}, Updated Date: ${list.updatedDate}, Apps: [${appListItems}]`;
+            return `List ID:Apps: [${appListItems}]`;
+            // return `List ID: ${list.id}, Description: ${list.description}, Limit: ${list.limit}, Creation Date: ${list.creationDate}, Updated Date: ${list.updatedDate}, Apps: [${appListItems}]`;
+
         });
         return items.join(" | ");
     } catch (err: any) {

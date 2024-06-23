@@ -27,12 +27,13 @@ export default class ListService{
     public async convertListToString(): Promise<string> {
         return  this.listDal.convertListToString();
     } 
+    public async isStringInList(searchString: string): Promise<boolean> {
+        return  this.listDal.isStringInList(searchString);
+    }
     public async updateDescription(id: string, newDescription: string): Promise<string | null> {
         return await this.listDal.updateDescription(id, newDescription);
     }
     public async deleteList(id: string): Promise<boolean> {
-        console.log("2");
-
         return await this.listDal.deleteListById(id)
     }
     public async addList(data:List):Promise<List>{
