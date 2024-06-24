@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getList , createList, deleteListById, deleteListByName,getListByLimit} from './Service';
+import { getList , createList, deleteListByName,getListByLimit,getListByName} from './Service';
 const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
+    const [namesLists,setNamesLists]=useState([]);
     const [lists, setLists] = useState([]);
     const [newListName, setNewListName] = useState('');
     const [newListDescription, setNewListDescription] = useState('');
@@ -40,35 +41,34 @@ const ListComponent = () => {
         }
     };
 
-    const handleDeleteListById = async (id) => {
-        try {
-            const data=await getListByLimit(limit);
-         console.log(data);
-          setLists(data);
-          fetchLists();
-        } catch (error) {
-            console.error('Error deleting list by id:', error);
-        }
-    };
 const handleGetListByLimit = async () => {
     try {
         console.log('Getting lists by limit:', limit);
-        const data = await getListByLimit(limit); // Fetch data by limit
-        setLimitedLists(data); // Update state with fetched data
+        const data = await getListByLimit(limit); 
+        setLimitedLists(data); 
     } catch (error) {
         console.error('Error fetching lists by limit:', error);
     }
 };
-    const handleDeleteListByName = async (name) => {
-        try {
-            await deleteListByName(name);
-            fetchLists();
-        } catch (error) {
-            console.error('Error deleting list by name:', error);
-        }
-    };
+// const handleGetListByName = async () => {
+//     try {
+//         console.log('Getting lists by name:', name);
+//         const data = await getListByName(name);
+//         setNamesLists(data);
+//     } catch (error) {
+//         console.error('Error fetching lists by name:', error);
+//     }
+// };
+//    const handleDeleteListByName = async (name) => {
+//         try {
+//             await deleteListByName(name);
+//             fetchLists();
+//         } catch (error) {
+//             console.error('Error deleting list by name:', error);
+//         }
+//     };
 
-    return (
+return (
         <div>
 
             <h1>Lists</h1>
@@ -102,32 +102,21 @@ const handleGetListByLimit = async () => {
                 />
                 <button onClick={handleCreateList}>Create List</button>
             </div>
-            <ul>
-                {lists.map((list) => (
-                    <li key={list._id}>
-                        <h2>{list.name}</h2>
-                        <p>Description: {list.description}</p>
-                        <p>Limit: {list.limit}</p>
-                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
-                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>דדקקקקקק
-                        <ul>
-                            {list.list.map((item, index) => (
-                                <li key={index}>
-                                    <p>App Name: {item.appName}</p>
-                                    <p>Description: {item.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                        <button onClick={() => handleDeleteListById(list._id)}>Delete by ID</button>
-                        <button onClick={() => handleDeleteListByName(list.name)}>Delete by Name</button>
-                       
-                    </li>
-                ))}
-            </ul>
+            <input
+            type='text'
+            value={namesLists}
+            onChange={(e)=>setNamesLists(e.target.value)}
+            placeholder='name'
+            ></input>
+            
+            
+            {/* <button onClick={handleGetListByName}>Get list by name</button> */}
+            
+            
             <h2>Limited Lists</h2>
             <ul>
                 {limitedLists.map((list) => (
-                    <li key={list._id}>
+                <li key={list._id}>
                         <h2>{list.name}</h2>
                         <p>Description: {list.description}</p>
                         <p>Limit: {list.limit}</p>
@@ -144,8 +133,69 @@ const handleGetListByLimit = async () => {
                      </li>
                 ))}
             </ul>
+            {/* <h1>name list</h1>
+            <ul>
+                {lists.map((list) => ( 
+                     
+
+                    <li key={list._id}>
+                        <h2>{list.name}</h2>
+                        <p>Description: {list.description}</p>
+                        <p>Limit: {list.limit    }</p>
+
+                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
+                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
+                        <ul>
+                            {list.list.map((item, index) => (
+                                <li key={index}>
+                                    <p>App Name: {item.appName}</p>
+                                    <p>Description: {item.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                       
+                       
+                    </li>
+                ))}
+            </ul> */}
         </div>
     );
 };
 
+
+
 export default ListComponent;
+
+
+{/* <ul>
+                {lists.map((list) => (
+                    <li key={list._id}>
+                        <h2>{list.name}</h2>
+                        <p>Description: {list.description}</p>
+                        <p>Limit: {list.limit}</p>
+                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
+                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
+                        <ul>
+                            {list.list.map((item, index) => (
+                                <li key={index}>
+                                    <p>App Name: {item.appName}</p>
+                                    <p>Description: {item.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                      
+                       
+                    </li>
+                ))}
+            </ul> */}
+            
+    // const handleDeleteListById = async (id) => {
+    //     try {
+    //         const data=await getListByLimit(limit);
+    //      console.log(data);
+    //       setLists(data);
+    //       fetchLists();
+    //     } catch (error) {
+    //         console.error('Error deleting list by id:', error);
+    //     }
+    // };
