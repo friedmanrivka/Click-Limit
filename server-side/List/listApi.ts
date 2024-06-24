@@ -13,7 +13,7 @@ export default class ListApi{
     private setRoutes()
     {
         
-        //#region  Get functions include getBy
+     //#region  Get functions include getBy
         //#region GetAll
         this.router.get('/', async (req: Request, res: Response) => {
             try {
@@ -69,9 +69,8 @@ export default class ListApi{
         });
         //#endregion
     //#endregion
-       
-       //#region UpdateByLimit/description
-      //#region Update
+    //#region UpdateByLimit/description
+    //#region Update
        this.router.put('/:id/limit', async (req: Request, res: Response) => {
             try {
                 const { id } = req.params;

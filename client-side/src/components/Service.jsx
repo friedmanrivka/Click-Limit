@@ -40,3 +40,15 @@ export const deleteListByName = async (name) => {
         throw error;
     }
 };
+export const getListByLimit=async (limit)=>{
+    console.log(`${API_URL}/list/limit/${limit}`)
+    try{
+        const response=await axios.get(`${API_URL}/list/limit/${limit}`);
+        return response.data;
+    }
+    catch (error) {console.error('Error getting list by limit:', error);
+        throw error;
+    }
+        
+}
+        
