@@ -1,5 +1,6 @@
 
 import express,{Application} from "express";
+import cors from "cors";
 import ListDal from "./List/ListDal";
 import ListService from "./List/listService";
 import DBConnect from "./utils/db-connect";
@@ -18,6 +19,7 @@ export default class App{
         const listApi=new ListApi(listService);
         this.app=express();
         this.app.use(express.json()); 
+        this.app.use(cors()); 
         this.app.use(LIST_API_ROUTE,listApi.router);
         this.app.listen(PORT,()=>{
             console.log("Server is up");
