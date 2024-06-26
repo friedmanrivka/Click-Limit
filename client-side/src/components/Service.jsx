@@ -23,14 +23,14 @@ export const createList = async (listData) => {
 };
 export const deleteListById = async (id) => {
     try {
-        console.log(id); // להדפסת הגעה לנקודה זו
+        console.log(id); 
 
         const response = await axios.delete(`${API_URL}/list/${id}`);
-        console.log('1'); // להדפסת הגעה לנקודה זו
+        console.log('1'); 
         return response.data;
     } catch (error) {
         console.error('Error deleting list:', error);
-        throw error; // נזרוק את השגיאה כדי שנוכל לטפל בה ב-React
+        throw error; 
     }
 };
 export const convertListToString = async () => {
@@ -62,7 +62,7 @@ export const addApp = async (listId,app) => {
             throw error;
         }
     };
-// פונקציה לבדוק אם מחרוזת ברשימה
+
 export const isStringInList = async (i) => {
     try {
         const response = await axios.get(`${API_URL}/list/isStringInList/${i}`);
