@@ -30,8 +30,12 @@ public async isStringInList(searchString: string): Promise<boolean> {
     }
 }
 public async getListByLimit(limit: number): Promise<List[]> {
+console.log("getListByLimit");
+console.log(limit);
     try {
+        
         const result = await this.collection.find({ limit }).toArray();
+     console.log(result);
         return result;
     } catch (err: any) {
         throw new Error(`Failed to get list by limit from DB: ${err}`);

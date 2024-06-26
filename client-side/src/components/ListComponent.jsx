@@ -97,9 +97,63 @@ const ListComponent = () => {
     };
     return (
         <div>
+
             <h1>Lists</h1>
  
             <ul>
+                {limitedLists.map((list) => (
+                <li key={list._id}>
+                        <h2>{list.name}</h2>
+                        <p>Description: {list.description}</p>
+                        <p>Limit: {list.limit}</p>
+                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
+                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
+                        <ul>
+                            {list.list.map((item, index) => (
+                                <li key={index}>
+                                    <p>App Name: {item.appName}</p>
+                                    <p>Description: {item.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                     </li>
+                ))}
+            </ul>
+            {/* <h1>name list</h1>
+            <ul>
+                {lists.map((list) => ( 
+                     
+
+                    <li key={list._id}>
+                        <h2>{list.name}</h2>
+                        <p>Description: {list.description}</p>
+                        <p>Limit: {list.limit    }</p>
+
+                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
+                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
+                        <ul>
+                            {list.list.map((item, index) => (
+                                <li key={index}>
+                                    <p>App Name: {item.appName}</p>
+                                    <p>Description: {item.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                       
+                       
+                    </li>
+                ))}
+            </ul> */}
+        </div>
+    );
+};
+
+
+
+export default ListComponent;
+
+
+{/* <ul>
                 {lists.map((list) => (
                     <li key={list._id}>
                         <h2>{list.id}</h2>
@@ -215,4 +269,4 @@ const ListComponent = () => {
     );
 };
 
-export default ListComponent;
+
