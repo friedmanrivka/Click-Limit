@@ -17,6 +17,18 @@ public async getListByDescription(description:string): Promise<List[]>  {
         throw new Error(`Failed to get list by description from DB: ${err}`);
     }
 }
+public async isStringInList(searchString: string): Promise<boolean> {
+    try {
+        const list = await this.convertListToString();
+        if (!list) {
+            throw new Error('List not found');
+        }
+        // בדיקה אם המחרוזת המבוקשת קיימת במחרוזת המיוצאת
+        return list.includes(searchString);
+    } catch (err: any) {
+        throw new Error(`Failed to check string in list: ${err}`);
+    }
+}
 public async getListByLimit(limit: number): Promise<List[]> {
     try {
         const result = await this.collection.find({ limit }).toArray();
@@ -234,25 +246,12 @@ public async addList(data: List): Promise<List> {
 }
 //#endregion
 //#region Yeudit/AyalaToChooseOneOfThem
-public async isStringInList(searchString: string): Promise<boolean> {
-    try {
-        const list = await this.convertListToString();
-        if (!list) {
-            throw new Error('List not found');
-        }
-        // בדיקה אם המחרוזת המבוקשת קיימת במחרוזת המיוצאת
-        return list.includes(searchString);
-    } catch (err: any) {
-        throw new Error(`Failed to check string in list: ${err}`);
-    }
-}
 public async convertListToString(): Promise<string> {
     try {
         const lists = await this.getAllLists();
         const items = lists.map((list: List) => {
             const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
-            return `List ID:Apps: [${appListItems}]`;
-          
+            return `List ID:Apps: [${appListItems}]`;         
         });
         return items.join(" | ");
     } catch (err: any) {

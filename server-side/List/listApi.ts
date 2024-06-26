@@ -123,7 +123,7 @@ export default class ListApi{
     this.router.post('/:id/app', validateAppData, async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const app = res.locals.appData;
+            const app :AppList= req.body;
             const updatedList: List = await this.listService.addAppToList(id, app);
             res.status(200).json(updatedList);
         } catch (err: any) {
@@ -170,15 +170,15 @@ export default class ListApi{
     });
     this.router.get('/isStringInList/:i', async (req: Request, res: Response) => {
         try {
+           
             const { i } = req.params;
-
+            console.log(i)
             const result = await this.listService.isStringInList(i);
             res.status(200).send(result);
         } catch (err: any) {
             res.status(500).send(`Failed to convert list: ${err.message}`);
         }
     });
-    
     this.router.get('/search/:keyword', async (req: Request, res: Response) => {
         try {
             const { keyword } = req.params;
@@ -205,7 +205,7 @@ export default class ListApi{
     
   
   
-    this.router.delete('/:listId/app/:appId',validateId, async (req: Request, res: Response) => {
+    this.router.delete('/:listId/app/:appId', async (req: Request, res: Response) => {
         try {
             const { listId, appId } = req.params;
             const updatedList: List = await this.listService.deleteAppFromList(listId, appId);
