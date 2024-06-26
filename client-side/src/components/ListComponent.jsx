@@ -15,6 +15,13 @@ const ListComponent = () => {
     const [limit, setLimit] = useState(0);
     const [listByName, setListByName] = useState(null);
     const [searchName, setSearchName] = useState(''); // State for the search input
+    const [newListApplist, setNewListApplist] = useState([]);
+
+   // const [newAppId, setNewAppId] = useState('');
+   // const [newAppdes, setNewAppdes] = useState('');
+
+    // const [apps, setApps] = useState([]);
+    // const [message, setMessage] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -41,6 +48,24 @@ const ListComponent = () => {
             setLists(data);
         } catch (error) {
             console.error('Error fetching lists:', error);
+        }
+    };
+    const handleCreateList = async () => {
+        try {
+            const newList = {
+                id: newListName,
+                description: newListDescription,
+                limit: newListLimit,
+                creationDate: new Date(),
+                updatedDate: new Date(),
+                //list:[{newAppId},{newAppdes}]  
+                // list: newListApplist.map(app => ({ id: app.id, description: app.description }))
+            };
+            await createList(newList);
+            handleAddApp(newListName)
+            fetchLists(); // פונקציה לשליפת הרשימות לאחר ההוספה
+        } catch (error) {
+            console.error('Error creating list:', error);
         }
     };
     const handleGetListByLimit = async (listId) => {
@@ -97,6 +122,56 @@ const ListComponent = () => {
     };
     return (
         <div>
+              <input
+                    type="text"
+                    value={newListName}
+                    onChange={(e) => setNewListName(e.target.value)}
+                    placeholder="New list ID"
+                />
+                <input
+                    type="text"
+                    value={newListDescription}
+                    onChange={(e) => setNewListDescription(e.target.value)}
+                    placeholder="New list description"
+                />
+                <input
+                    type="number"
+                    value={newListLimit}
+                    onChange={(e) => setNewListLimit(e.target.value)}
+                    placeholder="Limit"
+                />
+                 <input
+                        type="text"
+                             // value={appId}
+                                    onChange={(e) => setAppId(e.target.value)}
+                                    placeholder="New list name"
+                                />
+                                <input
+                                    type="text"
+                                    onChange={(e) => setAppDescription(e.target.value)}
+                                    placeholder="New list description"
+                                />
+                 
+                                {/* <button onClick={() => handleAddApp(newListName)}>insert ListApp</button> */}
+                {/* <input
+                    type="text"
+                    value={newListApplist}
+                    onChange={(e) => setNewListApplist(e.target.value.split(',').map(app => ({ id: app.split(':')[0], description: app.split(':')[1] })))}
+                    placeholder="App List (format: id:description,id:description)"
+                /> */}
+                 {/* <input
+                    type="text"
+                    value={newAppId}
+                    onChange={(e) => setNewAppId(e.target.value.split(',').map(app => ({ id: app.split(':')[0], description: app.split(':')[1] })))}
+                    placeholder="App List (format: id:description,id:description)"
+                />
+                <input
+                    type="text"
+                    value={newAppdes}
+                    onChange={(e) => setNewAppdes(e.target.value.split(',').map(app => ({ id: app.split(':')[0], description: app.split(':')[1] })))}
+                    placeholder="App List (format: id:description,id:description)"
+                /> */}
+                <button onClick={handleCreateList}>Create</button>
             <h1>Lists</h1>
  
             <ul>
@@ -163,7 +238,7 @@ const ListComponent = () => {
             <button onClick={handleGetListByLimit}>Get Lists by Limit</button>
             <ul>
             {limitedLists.map((list) => (
-                    <li key={list._id}>
+                    <li key={list.id}>
                         <p>{list.id}</p>
                         <p>Description: {list.description}</p>
                         <p>Limit: {list.limit}</p>
@@ -172,7 +247,7 @@ const ListComponent = () => {
                         <ul>
                             {list.list.map((item, index) => (
                                 <li key={index}>
-                                    <p>App Name: {item.appName}</p>
+                                    <p>App Name: {item.id}</p>
                                     <p>Description: {item.description}</p>
                                 </li>
                             ))}

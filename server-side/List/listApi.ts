@@ -108,12 +108,13 @@ export default class ListApi{
 
        //#endregion 
    //#region Add
-       this.router.post('/', validateListData, async (req: Request, res: Response) => {
+       this.router.post('/add', async (req: Request, res: Response) => {
         console.log('api')
         try {
-            const listData = res.locals.listData;
-       
-            const newList=await this.listService.addList(listData    );
+            const listData1 = req.body;
+            // const {listData1} = req.params;
+
+            const newList=await this.listService.addList(listData1);
             res.status(201).json(newList);
         } catch (err: any) {
             res.status(500).send(err.message);

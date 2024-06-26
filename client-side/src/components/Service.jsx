@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api';
-const API_URL1 = 'http://localhost:8080/api/list/B';
+// const API_URL1 = 'http://localhost:8080/api/list/B';
 export const getList = async () => {
     try {
         const response = await axios.get(`${API_URL}/list`);
@@ -13,8 +13,11 @@ export const getList = async () => {
 };
 
 export const createList = async (listData) => {
-    try {
-        const response = await axios.post(`${API_URL}/list`, listData);
+    try {console.log(listData)
+
+        const response = await axios.post(`${API_URL}/list/add`, listData);
+        console.log(response)
+
         return response.data;
     } catch (error) {
         console.error('Error creating list:', error);
@@ -72,6 +75,7 @@ export const isStringInList = async (i) => {
         throw error;
     }
 };
+
 export const deleteListByName = async (name) => {
     try {
         const response = await axios.delete(`${API_URL}/lists/name/${name}`);
