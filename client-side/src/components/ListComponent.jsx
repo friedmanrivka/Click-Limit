@@ -9,6 +9,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
 const ListComponent = () => {
+import {  updateLimit, updateDescription, updateAppDescription, getList , createList, deleteListById, convertListToString, isStringInList, deleteListByName,deleteAppFromList,addApp,getListByLimit,getListByName} from './Service'
+    const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
     const [appId, setAppId] = useState('');
     const [appDescription, setAppDescription] = useState('');
@@ -28,12 +30,6 @@ const ListComponent = () => {
     const [newAppDescriptions, setNewAppDescriptions] = useState({});
     const [error, setError] = useState('');
     const [showApps, setShowApps] = useState({});
-
-   // const [newAppId, setNewAppId] = useState('');
-   // const [newAppdes, setNewAppdes] = useState('');
-
-    // const [apps, setApps] = useState([]);
-    // const [message, setMessage] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -135,7 +131,6 @@ const ListComponent = () => {
         } catch (error) {
             console.error('Error checking if string is in list:', error);
         }
-
     }
          const handleUpdateLimit = async (id, newLimit, setError, fetchLists) => {
             try {
@@ -197,6 +192,59 @@ const ListComponent = () => {
                 [listId]: !prevState[listId]
             }));
         };
+    };
+     const handleUpdateLimit = async (id, newLimit, setError, fetchLists) => {
+        try {
+            const limit = parseInt(newLimit[id], 10);
+            if (isNaN(limit)) {
+                setError('Limit must be a number');
+                return;
+            }
+            setError('');
+            await updateLimit(id, limit);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating limit:', error);
+        }
+    };
+    
+     const handleUpdateDescription = async (id, newDescription, fetchLists) => {
+        try {
+            const description = newDescription[id];
+            await updateDescription(id, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating description:', error);
+        }
+    };
+    
+     const handleUpdateAppDescription = async (listId, appId, newAppDescriptions, fetchLists) => {
+        try {
+            const description = newAppDescriptions[listId]?.[appId];
+            await updateAppDescription(listId, appId, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating app description:', error);
+        }
+    };
+    
+     const handleLimitChange = (id, value, setNewLimit) => {
+        setNewLimit(prevState => ({ ...prevState, [id]: value }));
+    };
+    
+     const handleDescriptionChange = (id, value, setNewDescription) => {
+        setNewDescription(prevState => ({ ...prevState, [id]: value }));
+    };
+    
+     const handleAppDescriptionChange = (listId, appId, value, setNewAppDescriptions) => {
+        setNewAppDescriptions(prevState => ({
+            ...prevState,
+            [listId]: {
+                ...prevState[listId],
+                [appId]: value
+            }
+        }));
+    };
     return (
         <div>     <input
         type="text"
@@ -430,8 +478,7 @@ const ListComponent = () => {
        <div>
     
 <div>
-</div>
-            
+</div>          
       <h2>Limited Lists</h2>
       <input
                 type="number"
