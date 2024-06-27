@@ -76,15 +76,15 @@ export const isStringInList = async (i) => {
     }
 };
 
-export const deleteListByName = async (name) => {
-    try {
-        const response = await axios.delete(`${API_URL}/lists/name/${name}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting list by name:', error);
-        throw error;
-    }
-};
+// export const deleteListByName = async (name) => {
+//     try {
+//         const response = await axios.delete(`${API_URL}/lists/name/${name}`);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error deleting list by name:', error);
+//         throw error;
+//     }
+// };
 export const getListByLimit=async (limit)=>{
     try{
         const response=await axios.get(`${API_URL}/list/limit/${limit}`);
@@ -105,3 +105,36 @@ export const getListByName = async (name) => {
         throw error;
     }
 };
+export const updateLimit = async (id, newLimit) => {
+    try {
+        const response = await axios.put(`${API_URL}/list/${id}/limit`, { limit: newLimit });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating limit:', error);
+        throw error;
+    }
+};
+export const updateDescription = async(id, newDescription) =>{
+    try{
+        const response = await axios.put(`${API_URL}/list/${id}/description`,{description: newDescription});
+        return response.data;
+    }
+    catch(error){
+        console.error('Error updating description:', error);
+        throw error;
+    }
+    };
+    export const updateAppDescription = async(id,appId, newAppDescription) =>{
+        try{
+            const response= await axios.put(`${API_URL}/list/id/${id}/app/${appId}/description`,{description:newAppDescription });
+                return response.data;
+        }
+        catch(error){
+                console.error('Error updating description:', error);
+        throw error;
+        }
+    };
+
+
+
+
