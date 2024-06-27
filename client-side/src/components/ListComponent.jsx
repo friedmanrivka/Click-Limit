@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {  updateLimit, updateDescription, updateAppDescription, getList , createList, deleteListById, convertListToString, isStringInList, deleteListByName,deleteAppFromList,addApp,getListByLimit,getListByName} from './Service';
- 
+ console.log('rivky');
     const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
     const [appId, setAppId] = useState('');
