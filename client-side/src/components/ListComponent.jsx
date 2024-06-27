@@ -131,8 +131,9 @@ const ListComponent = () => {
     };
     //change
 
-      const handleCheckStringInList = async (stringToCheck) => {
+      const handleCheckStringInList = async () => {
         try {
+            console.log(stringToCheck)
             const result = await isStringInList(stringToCheck);
             setIsInList(result);
             // return result;
