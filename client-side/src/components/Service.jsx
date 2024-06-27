@@ -75,16 +75,6 @@ export const isStringInList = async (i) => {
         throw error;
     }
 };
-
-// export const deleteListByName = async (name) => {
-//     try {
-//         const response = await axios.delete(`${API_URL}/lists/name/${name}`);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error deleting list by name:', error);
-//         throw error;
-//     }
-// };
 export const getListByLimit=async (limit)=>{
     try{
         const response=await axios.get(`${API_URL}/list/limit/${limit}`);
@@ -134,7 +124,3 @@ export const updateDescription = async(id, newDescription) =>{
         throw error;
         }
     };
-
-
-
-
