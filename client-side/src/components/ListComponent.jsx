@@ -28,6 +28,10 @@ const ListComponent = () => {
     const [newAppDescriptions, setNewAppDescriptions] = useState({});
     const [error, setError] = useState('');
     const [showApps, setShowApps] = useState({});
+    const [listId, setlistId] = useState('');
+    const [idAppFromList, setidAppFromList] = useState('');
+    const [idList, setIdList] = useState('');
+    const [idListDelete, setIdListDelete] = useState('');
 
    // const [newAppId, setNewAppId] = useState('');
    // const [newAppdes, setNewAppdes] = useState('');
@@ -198,19 +202,51 @@ const ListComponent = () => {
             }));
         };
     return (
-        <div>     <input
+        <div>   
+            <div>
+    <input
+     type="text"
+     // value={appId}
+     onChange={(e) => setIdListDelete(e.target.value)}
+     placeholder="List Id for delete"
+     />
+    <Button onClick={() => handleDeleteListById(idListDelete)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                        
+     </div>
+<div>
+    <input
+     type="text"
+     // value={appId}
+     onChange={(e) => setIdList(e.target.value)}
+     placeholder="List Id"
+     />
+    <input
+    type="text"
+    onChange={(e) => setidAppFromList(e.target.value)}
+    placeholder="App List Id"
+    />
+    <button onClick={() => handleDeleteAppFromListByName(idList,idAppFromList)}>Delete appList by ID</button>            
+       
+     </div>
+            <br></br>
+              <input
+        type="text"
+        // value={appId}
+        onChange={(e) => setlistId(e.target.value)}
+        placeholder="which applist you whant to add"
+    />
+        <input
         type="text"
         // value={appId}
         onChange={(e) => setAppId(e.target.value)}
-        placeholder="New list name"
+        placeholder="New applist name"
     />
     <input
         type="text"
         onChange={(e) => setAppDescription(e.target.value)}
-        placeholder="New list description"
+        placeholder="New applist description"
     />
 
-    <button onClick={() => handleAddApp(appId)}>insert ListApp</button>
+    <button onClick={() => handleAddApp(listId)}>insert ListApp</button>
             <br></br>
               <input
                     type="text"
@@ -405,8 +441,7 @@ const ListComponent = () => {
                                 <button onClick={() => handleDeleteListById(list.id)}>Delete LIst by ID</button>
 
                                 <ListItem>
-                                    <Button onClick={() => handleDeleteListById(list.id, () => fetchLists(setLists))} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>
-                                   
+                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                  
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
                             </>
