@@ -19,7 +19,7 @@ public async getListByDescription(description:string): Promise<List[]>  {
 }
 public async isStringInList(searchString: string): Promise<boolean> {
     try {
-        const list = await this.convertListToString();
+        const list = await this.convertNameAppToString();
         if (!list) {
             throw new Error('List not found');
         }
@@ -255,6 +255,18 @@ public async convertListToString(): Promise<string> {
         const lists = await this.getAllLists();
         const items = lists.map((list: List) => {
             const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
+            return `List ID:Apps: [${appListItems}]`;         
+        });
+        return items.join(" | ");
+    } catch (err: any) {
+        throw new Error(`Failed to convert lists to string: ${err}`);
+    }
+}
+public async convertNameAppToString(): Promise<string> {
+    try {
+        const lists = await this.getAllLists();
+        const items = lists.map((list: List) => {
+            const appListItems = list.list.map((app: AppList) => `${app.id}`).join(", ");
             return `List ID:Apps: [${appListItems}]`;         
         });
         return items.join(" | ");
