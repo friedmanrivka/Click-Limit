@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getList , createList, deleteListById, convertListToString, isStringInList, deleteListByName,deleteAppFromList,addApp,getListByLimit,getListByName} from './Service';
-
-const ListComponent = () => {
+import {  updateLimit, updateDescription, updateAppDescription, getList , createList, deleteListById, convertListToString, isStringInList, deleteListByName,deleteAppFromList,addApp,getListByLimit,getListByName} from './Service';
+ 
+    const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
     const [appId, setAppId] = useState('');
     const [appDescription, setAppDescription] = useState('');
     const [lists, setLists] = useState([]);
     const [newListName, setNewListName] = useState('');
-     const [newListDescription, setNewListDescription] = useState('');
+    const [newListDescription, setNewListDescription] = useState('');
     const [stringToCheck, setStringToCheck] = useState('');
     const [isInList, setIsInList] = useState(null);
     const [convertedList, setConvertedList] = useState('');
@@ -119,6 +119,58 @@ const ListComponent = () => {
         } catch (error) {
             console.error('Error checking if string is in list:', error);
         }
+    };
+     const handleUpdateLimit = async (id, newLimit, setError, fetchLists) => {
+        try {
+            const limit = parseInt(newLimit[id], 10);
+            if (isNaN(limit)) {
+                setError('Limit must be a number');
+                return;
+            }
+            setError('');
+            await updateLimit(id, limit);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating limit:', error);
+        }
+    };
+    
+     const handleUpdateDescription = async (id, newDescription, fetchLists) => {
+        try {
+            const description = newDescription[id];
+            await updateDescription(id, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating description:', error);
+        }
+    };
+    
+     const handleUpdateAppDescription = async (listId, appId, newAppDescriptions, fetchLists) => {
+        try {
+            const description = newAppDescriptions[listId]?.[appId];
+            await updateAppDescription(listId, appId, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating app description:', error);
+        }
+    };
+    
+     const handleLimitChange = (id, value, setNewLimit) => {
+        setNewLimit(prevState => ({ ...prevState, [id]: value }));
+    };
+    
+     const handleDescriptionChange = (id, value, setNewDescription) => {
+        setNewDescription(prevState => ({ ...prevState, [id]: value }));
+    };
+    
+     const handleAppDescriptionChange = (listId, appId, value, setNewAppDescriptions) => {
+        setNewAppDescriptions(prevState => ({
+            ...prevState,
+            [listId]: {
+                ...prevState[listId],
+                [appId]: value
+            }
+        }));
     };
     return (
         <div>
