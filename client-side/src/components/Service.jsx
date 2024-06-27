@@ -101,7 +101,7 @@ export const getListByName = async (name) => {
         const response = await axios.get(`${API_URL}/list/id/${name}`);
         return response.data;
     } catch (error) {
-        console.error('Error getting list by name:', error);
+       
         throw error;
     }
 };

@@ -21,7 +21,7 @@ import {  updateLimit, updateDescription, updateAppDescription, getList , create
    // const [newAppdes, setNewAppdes] = useState('');
 
     // const [apps, setApps] = useState([]);
-    // const [message, setMessage] = useState('');
+   const [messageErorr, setMessageErorr] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -78,11 +78,23 @@ import {  updateLimit, updateDescription, updateAppDescription, getList , create
         }
     };
     const handleGetListByName = async () => {
+        if (!searchName.trim()) {
+            setMessageErorr('Please enter the name of the list you want to search.');
+            return;
+        }
+    
+        if (/^\d+$/.test(searchName)) {
+            setMessageErorr('The name must be text, not a number.');
+            return;
+        }
         try {
             const data = await getListByName(searchName);
             setListByName(data);
         }
         catch (error) {
+            if (error.response && error.response.status === 404) {
+                setMessageErorr('List not found.');
+            }
             console.error('Error fetching list by name:', error);
         }
     };
@@ -317,6 +329,7 @@ import {  updateLimit, updateDescription, updateAppDescription, getList , create
                     placeholder="Enter list name"
                 />
                 <button onClick={handleGetListByName}>Get list by name</button>
+                {messageErorr && <p style={{ color: 'red' }}>{messageErorr}</p>}
 {listByName && (
                     <div>
                         <p>{listByName.id}</p>
