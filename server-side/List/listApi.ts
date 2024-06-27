@@ -59,12 +59,12 @@ export default class ListApi{
                 const list = await this.listService.getListById(id);
                 
                 if (!list) {
-                    return res.status(404).send('List not found.');
+                    return res.status(404);
                 }
         
                 return res.status(200).json(list);
             } catch (err: any) {
-                return res.status(500).send(err.message);
+                return res.status(500);
             }
         });
         //#endregion

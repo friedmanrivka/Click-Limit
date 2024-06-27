@@ -1,4 +1,6 @@
- import React, { useEffect, useState } from 'react';
+
+
+import React, { useEffect, useState } from 'react';
 import  { getList , createList, deleteListById, convertListToString, isStringInList,deleteAppFromList,addApp,getListByLimit,getListByName,updateLimit,updateDescription,updateAppDescription} from './Service';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -9,6 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
 const ListComponent = () => {
+
     const [limitedLists, setLimitedLists] = useState([]);
     const [appId, setAppId] = useState('');
     const [appDescription, setAppDescription] = useState('');
@@ -37,7 +40,7 @@ const ListComponent = () => {
    // const [newAppdes, setNewAppdes] = useState('');
 
     // const [apps, setApps] = useState([]);
-    // const [message, setMessage] = useState('');
+   const [messageErorr, setMessageErorr] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -93,12 +96,26 @@ const ListComponent = () => {
             console.error('Error fetching lists by limit:', error);
         }
     };
-       const handleGetListByName = async () => {
+
+    const handleGetListByName = async () => {
+        if (!searchName.trim()) {
+            setMessageErorr('Please enter the name of the list you want to search.');
+            return;
+        }
+    
+        if (/^\d+$/.test(searchName)) {
+            setMessageErorr('The name must be text, not a number.');
+            return;
+        }
+
         try {
             const data = await getListByName(searchName);
             setListByName(data);
         }
         catch (error) {
+            if (error.response && error.response.status === 404) {
+                setMessageErorr('List not found.');
+            }
             console.error('Error fetching list by name:', error);
         }
     };
@@ -505,6 +522,7 @@ const ListComponent = () => {
                     placeholder="Enter list name"
                 />
                 <button onClick={handleGetListByName}>Get list by name</button>
+                {messageErorr && <p style={{ color: 'red' }}>{messageErorr}</p>}
 {listByName && (
                     <div>
                         <p>{listByName.id}</p>
