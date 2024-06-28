@@ -48,6 +48,7 @@ const ListComponent = () => {
    const [createListError, setCreateListError] = useState('');
    const [deleteAppMessageErorr, setDeleteAppMessageErorr] = useState('');
    const [deleteListMessageErorr, setDeleteListMessageErorr] = useState('');
+   const [addAppError, setAddAppError] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -69,6 +70,33 @@ const ListComponent = () => {
    
     
      const handleAddApp = async (idList) => {
+        
+    
+        let errorMessages = [];
+
+        if (!idList.trim()) {
+            errorMessages.push('Please enter the name of the list.');
+        } else if (/^\d+$/.test(idList)) {
+            errorMessages.push('The list name must be text, not a number.');
+        }
+    
+        if (!appId.trim()) {
+            errorMessages.push('Please enter the name of the app.');
+        } else if (/^\d+$/.test(appId)) {
+            errorMessages.push('The app name must be text, not a number.');
+        }
+    
+        if (!appDescription.trim()) {
+            errorMessages.push('Please enter the description of the app.');
+        }
+    if (/^\d+$/.test(appDescription)) {
+        errorMessages.push('The app decription must be text, not a number.');
+    }
+        if (errorMessages.length > 0) {
+            setAddAppError(errorMessages.join(' '));
+            return;
+        }
+        
         try {
             const app = {
                 id: appId,
@@ -77,6 +105,7 @@ const ListComponent = () => {
             }
              await addApp(idList,app);
             fetchLists(); 
+            setAddAppError(''); 
         
             }catch (error) {
                 console.error('Error creating list:', error);
@@ -353,23 +382,35 @@ const ListComponent = () => {
             <br></br>
               <input
         type="text"
-        // value={appId}
-        onChange={(e) => setlistId(e.target.value)}
+        onChange={(e) => {
+            setlistId(e.target.value);
+            setAddAppError(''); // Clear error message on input change
+        }}
+       
+       
         placeholder="which applist you whant to add"
     />
         <input
         type="text"
-        // value={appId}
-        onChange={(e) => setAppId(e.target.value)}
+     
+        onChange={(e) => {
+            setAppId(e.target.value);
+            setAddAppError(''); // Clear error message on input change
+        }}
         placeholder="New applist name"
     />
     <input
         type="text"
-        onChange={(e) => setAppDescription(e.target.value)}
+        onChange={(e) => {
+            setAppDescription(e.target.value);
+            setAddAppError(''); // Clear error message on input change
+        }}
+       
         placeholder="New applist description"
     />
 
     <button onClick={() => handleAddApp(listId)}>insert ListApp</button>
+    {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
             <br></br>
               <input
                     type="text"
