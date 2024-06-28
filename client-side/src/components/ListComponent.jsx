@@ -43,6 +43,8 @@ const ListComponent = () => {
    const [messageErorr, setMessageErorr] = useState('');
    const [limitMessageErorr, setLimitMessageErorr] = useState('');
    const [srtingMessageErorr, setStringMessageErorr] = useState('');
+   const [deleteMessageErorr, setDeleteMessageErorr] = useState('');
+   const [createListError, setCreateListError] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -87,6 +89,20 @@ const ListComponent = () => {
         }
     };
        const handleCreateList = async () => {
+        if (!newListName.trim()) {
+            setCreateListError('List name is required.');
+            return;
+        }
+    
+        if (!newListDescription.trim()) {
+            setCreateListError('List description is required.');
+            return;
+        }
+    
+        if (isNaN(newListLimit) || newListLimit <= 0) {
+            setCreateListError('Limit must be a positive number.');
+            return;
+        }
         try {
             const newList = {
                 id: newListName,
@@ -140,11 +156,26 @@ const ListComponent = () => {
             console.error('Error fetching list by name:', error);
         }
     };
-       const handleDeleteListById = async (id) => {      
+       const handleDeleteListById = async (id) => {  
+        if (!idListDelete.trim()) {
+            setDeleteMessageErorr('Please enter a string to delete.');
+            return;
+        }
+    
+        if (/^\d+$/.test(idListDelete)) {
+            setDeleteMessageErorr('The input must be text, not a number.');
+            return;
+        }    
         try {
             await deleteListById(id);
             fetchLists();
         } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setDeleteMessageErorr('List not found.');
+            }
+            // else{
+            //     setDeleteMessageError('An error occurred while deleting the list.');
+            // }
             console.error('Error deleting list by id:', error);
         }
     };
@@ -256,10 +287,15 @@ const ListComponent = () => {
     <input
      type="text"
      // value={appId}
-     onChange={(e) => setIdListDelete(e.target.value)}
+    //  onChange={(e) => setIdListDelete(e.target.value)}
+    onChange={(e) => {
+        setIdListDelete(e.target.value);
+        setDeleteMessageErorr(''); // Clear error message on input change
+    }}
      placeholder="List Id for delete"
      />
     <Button onClick={() => handleDeleteListById(idListDelete)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                        
+    {deleteMessageErorr && <p style={{ color: 'red' }}>{deleteMessageErorr}</p>}
      </div>
 <div>
     <input
@@ -300,19 +336,28 @@ const ListComponent = () => {
               <input
                     type="text"
                     value={newListName}
-                    onChange={(e) => setNewListName(e.target.value)}
+                    onChange={(e) => {
+                        setNewListName(e.target.value);
+                        setCreateListError(''); // Clear error message on input change
+                    }}
                     placeholder="New list ID"
                 />
                 <input
                     type="text"
                     value={newListDescription}
-                    onChange={(e) => setNewListDescription(e.target.value)}
+                    onChange={(e) => {
+                        setNewListName(e.target.value);
+                        setCreateListError(''); // Clear error message on input change
+                    }}
                     placeholder="New list description"
                 />
                 <input
                     type="number"
                     value={newListLimit}
-                    onChange={(e) => setNewListLimit(e.target.value)}
+                    onChange={(e) => {
+                        setNewListName(e.target.value);
+                        setCreateListError(''); // Clear error message on input change
+                    }}
                     placeholder="Limit"
                 />
                  <input
@@ -415,6 +460,7 @@ const ListComponent = () => {
                                         onChange={(e) => handleLimitChange(list.id, e.target.value, setNewLimit)}
                                         placeholder="New Limit"
                                         style={{ marginRight: '10px' }}
+                                        
                                     />
                                     <TextField
                                         type="text"
@@ -488,9 +534,11 @@ const ListComponent = () => {
                                     ))}
                                 </List>
                                 <button onClick={() => handleDeleteListById(list.id)}>Delete LIst by ID</button>
+                              
 
                                 <ListItem>
                                     <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                  
+                     
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
                             </>

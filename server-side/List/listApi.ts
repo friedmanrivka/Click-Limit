@@ -152,7 +152,7 @@ export default class ListApi{
             if (success) {
                 res.status(200).send('Main Record deleted');
             } else {
-                res.status(404).send('Record not found');
+                res.status(404);
             }
         } catch (err: any) {
             res.status(500).send(`Failed to delete list: ${err.message}`);
