@@ -49,6 +49,7 @@ const ListComponent = () => {
    const [deleteAppMessageErorr, setDeleteAppMessageErorr] = useState('');
    const [deleteListMessageErorr, setDeleteListMessageErorr] = useState('');
    const [addAppError, setAddAppError] = useState('');
+   const [addUpdateDescriptionError, setAddUpdateDescriptionError] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
@@ -57,17 +58,26 @@ const ListComponent = () => {
         setMessageErorr(''); 
         setListByName(null);
     }
-    const handleLimitInputChange = (e) => {
-        const value = Number(e.target.value);
-        if (value >= 1) {
-            setLimit(value);
-            setLimitMessageErorr(''); // Clear error message on input change
+    // const handleLimitInputChange = (e) => {
+    //     const value = Number(e.target.value);
+    //     if (value >= 1) {
+    //         setLimit(value);
+    //         setLimitMessageErorr(''); // Clear error message on input change
+    //     } else {
+    //         setLimit(1); // Ensure the value doesn't go below 1
+    //         setLimitMessageErorr('there is not like this limit'); // Clear error message on input change
+    //     }
+    // };
+    const handleLimitInputChange = (id, value, setState, setError) => {
+        const limit = Number(value);
+        if (limit >= 1) {
+            setState(prevState => ({ ...prevState, [id]: limit }));
+            setError(''); // Clear error message on input change
         } else {
-            setLimit(1); // Ensure the value doesn't go below 1
-            setLimitMessageErorr('there is not like this limit'); // Clear error message on input change
+            setState(prevState => ({ ...prevState, [id]: 1 })); // Ensure the value doesn't go below 1
+            setError('there is not like this limit'); // Set error message
         }
     };
-   
     
      const handleAddApp = async (idList) => {
         
@@ -105,7 +115,7 @@ const ListComponent = () => {
             }
              await addApp(idList,app);
             fetchLists(); 
-            setAddAppError(''); 
+            setAddAppError('the app added successfully'); 
         
             }catch (error) {
                 console.error('Error creating list:', error);
@@ -297,6 +307,16 @@ const ListComponent = () => {
         };
         
            const handleUpdateDescription = async (id, newDescription, fetchLists) => {
+            if (!newDescription[id]?.trim()) {
+                setAddUpdateDescriptionError('Please enter a description.');
+                return;
+            }
+            
+            if (/^\d+$/.test(newDescription[id])) {
+                setAddUpdateDescriptionError('The description must be text, not a number.');
+                return;
+            }
+        
             try {
                 const description = newDescription[id];
                 await updateDescription(id, description);
@@ -535,21 +555,34 @@ const ListComponent = () => {
                                 <br></br>
                                     <TextField
                                         type="number"
+                                         min="1"
                                         value={newLimit[list.id] || ''}
-                                        onChange={(e) => handleLimitChange(list.id, e.target.value, setNewLimit)}
+                                        // onChange={(e) => handleLimitChange(list.id, e.target.value, setNewLimit)}
+                                        onChange={(e) => handleLimitInputChange(list.id, e.target.value, setNewLimit, setError)}
                                         placeholder="New Limit"
                                         style={{ marginRight: '10px' }}
+
                                         
                                     />
                                     <TextField
                                         type="text"
                                         value={newDescription[list.id] || ''}
-                                        onChange={(e) => handleDescriptionChange(list.id, e.target.value, setNewDescription)}
+                                        // onChange={(e) => handleDescriptionChange(list.id, e.target.value, setNewDescription)
+                                        //     setAddUpdateDescriptionError('');
+
+                                        // }
+                                        onChange={(e) => {
+                                            handleDescriptionChange(list.id, e.target.value, setNewDescription);
+                                            setAddUpdateDescriptionError('');  ; // Clear error message on input change
+                                        }}
+                                      
                                         placeholder="New Description"
                                         style={{ marginRight: '10px' }}
                                     />
                                     <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, () => fetchLists(setLists))} variant="contained" color="primary" style={{ marginRight: '10px' }}>Update Limit</Button>
+                                    
                                     <Button onClick={() => handleUpdateDescription(list.id, newDescription, () => fetchLists(setLists))} variant="contained" color="primary">Update Description</Button>
+                                    {addUpdateDescriptionError && <p style={{ color: 'red' }}>{addUpdateDescriptionError}</p>}
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
 
