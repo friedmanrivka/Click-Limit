@@ -24,6 +24,7 @@ const ListComponent = () => {
     const [newListLimit, setNewListLimit] = useState(0);
     const [limit, setLimit] = useState(0);
     const [listByName, setListByName] = useState(null);
+    const [listByName2, setListByName2] = useState(null);
     const [searchName, setSearchName] = useState(''); // State for the search input
     const [newListApplist, setNewListApplist] = useState([]);
     const [newLimit, setNewLimit] = useState({});
@@ -45,12 +46,15 @@ const ListComponent = () => {
    const [srtingMessageErorr, setStringMessageErorr] = useState('');
    const [deleteMessageErorr, setDeleteMessageErorr] = useState('');
    const [createListError, setCreateListError] = useState('');
+   const [deleteAppMessageErorr, setDeleteAppMessageErorr] = useState('');
+   const [deleteListMessageErorr, setDeleteListMessageErorr] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
     const handleInputChange = (e) => {
         setSearchName(e.target.value);
         setMessageErorr(''); 
+        setListByName(null);
     }
     const handleLimitInputChange = (e) => {
         const value = Number(e.target.value);
@@ -135,6 +139,7 @@ const ListComponent = () => {
     };
 
     const handleGetListByName = async () => {
+       
         if (!searchName.trim()) {
             setMessageErorr('Please enter the name of the list you want to search.');
             return;
@@ -147,12 +152,15 @@ const ListComponent = () => {
 
         try {
             const data = await getListByName(searchName);
+            console.log(data);  
             setListByName(data);
+          setMessageErorr('');
         }
         catch (error) {
             if (error.response && error.response.status === 404) {
                 setMessageErorr('List not found.');
             }
+            
             console.error('Error fetching list by name:', error);
         }
     };
@@ -181,11 +189,34 @@ const ListComponent = () => {
     };
 
      const handleDeleteAppFromListByName = async (idList,idApp) => {
+        let hasError = false;
+        if (!idList.trim()) {
+            setDeleteListMessageErorr('Please enter the name of the list.');
+          
+        }
+    
+        if (/^\d+$/.test(idList)) {
+            setDeleteListMessageErorr('The list name must be text, not a number.');
+           
+        }
+    
+        if (!idApp.trim()) {
+            setDeleteAppMessageErorr('Please enter the name of the app.');
+           
+        }
+    
+        if (/^\d+$/.test(idApp)) {
+            setDeleteAppMessageErorr('The app name must be text, not a number.');
+            
+        }
         try {
             await deleteAppFromList(idList,idApp);
             fetchLists();
+            setDeleteAppMessageErorr('');
+            setDeleteListMessageErorr('');
         } catch (error) {
             console.error('Error deleting list by idList,idApp:', error);
+            
         }
     };
     //change
@@ -301,16 +332,23 @@ const ListComponent = () => {
     <input
      type="text"
      // value={appId}
-     onChange={(e) => setIdList(e.target.value)}
+     onChange={(e) => {
+        setIdList(e.target.value);
+        setDeleteListMessageErorr(''); // Clear error message on input change
+    }}
      placeholder="List Id"
      />
     <input
     type="text"
-    onChange={(e) => setidAppFromList(e.target.value)}
+    onChange={(e) => {
+        setidAppFromList(e.target.value);
+        setDeleteAppMessageErorr(''); // Clear error message on input change
+    }}
     placeholder="App List Id"
     />
     <button onClick={() => handleDeleteAppFromListByName(idList,idAppFromList)}>Delete appList by ID</button>            
-       
+    {deleteAppMessageErorr && <p style={{ color: 'red' }}>{deleteAppMessageErorr}</p>}
+    {deleteListMessageErorr && <p style={{ color: 'red' }}>{deleteListMessageErorr}</p>}
      </div>
             <br></br>
               <input

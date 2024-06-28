@@ -122,6 +122,7 @@ public async updateLimit(id: string, newLimit: number): Promise<number | null> {
     }
 }
 public async updateDescription(id: string, newDescription: string): Promise<string | null> {
+   
     try {
         const result = await this.collection.findOneAndUpdate(
             { id: String }, 

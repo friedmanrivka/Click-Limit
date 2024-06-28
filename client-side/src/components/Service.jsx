@@ -87,8 +87,10 @@ export const getListByLimit=async (limit)=>{
         
 };
 export const getListByName = async (name) => {
+  
     try {
         const response = await axios.get(`${API_URL}/list/id/${name}`);
+   
         return response.data;
     } catch (error) {
        
