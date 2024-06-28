@@ -41,10 +41,27 @@ const ListComponent = () => {
 
     // const [apps, setApps] = useState([]);
    const [messageErorr, setMessageErorr] = useState('');
+   const [limitMessageErorr, setLimitMessageErorr] = useState('');
+   const [srtingMessageErorr, setStringMessageErorr] = useState('');
     useEffect(() => {
         fetchLists();
     }, []);
-
+    const handleInputChange = (e) => {
+        setSearchName(e.target.value);
+        setMessageErorr(''); 
+    }
+    const handleLimitInputChange = (e) => {
+        const value = Number(e.target.value);
+        if (value >= 1) {
+            setLimit(value);
+            setLimitMessageErorr(''); // Clear error message on input change
+        } else {
+            setLimit(1); // Ensure the value doesn't go below 1
+            setLimitMessageErorr('there is not like this limit'); // Clear error message on input change
+        }
+    };
+   
+    
      const handleAddApp = async (idList) => {
         try {
             const app = {
@@ -88,11 +105,15 @@ const ListComponent = () => {
         }
     };
        const handleGetListByLimit = async (listId) => {
+        
         try {
             console.log('Getting lists by limit:', limit);
             const data = await getListByLimit(limit);
             setLimitedLists(data);
         } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setLimitMessageErorr('No lists found with the given limit.');
+            } 
             console.error('Error fetching lists by limit:', error);
         }
     };
@@ -149,6 +170,15 @@ const ListComponent = () => {
     //change
 
       const handleCheckStringInList = async () => {
+        if (!stringToCheck.trim()) {
+            setStringMessageErorr('Please enter a string to check.');
+            return;
+        }
+    
+        if (/^\d+$/.test(stringToCheck)) {
+            setStringMessageErorr('The input must be text, not a number.');
+            return;
+        }
         try {
             console.log(stringToCheck)
             const result = await isStringInList(stringToCheck);
@@ -156,6 +186,7 @@ const ListComponent = () => {
             // return result;
         } catch (error) {
             console.error('Error checking if string is in list:', error);
+            setStringMessageErorr('An error occurred while checking the string.');
         }
 
     }
@@ -475,11 +506,16 @@ const ListComponent = () => {
             <input
                 type="text"
                 value={stringToCheck}
-                onChange={(e) => setStringToCheck(e.target.value)}
+                onChange={(e) => {
+                    setStringToCheck(e.target.value);
+                    setStringMessageErorr(''); // Clear error message on input change
+                }}
+            
                 placeholder="Enter string to check"
             />
             <button onClick={handleCheckStringInList}>Check String in List</button>
             <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p>
+            {srtingMessageErorr && <p style={{ color: 'red' }}>{srtingMessageErorr}</p>}
        <div>
     
 <div>
@@ -489,10 +525,13 @@ const ListComponent = () => {
       <input
                 type="number"
                 value={limit}
-                onChange={(e) => setLimit(Number(e.target.value))}
+                // onChange={(e) => setLimit(Number(e.target.value))}
+                min="1"
                 placeholder="Enter limit"
+                onChange={handleLimitInputChange}
             />
             <button onClick={handleGetListByLimit}>Get Lists by Limit</button>
+            {limitMessageErorr && <p style={{ color: 'red' }}>{limitMessageErorr}</p>}
             <ul>
             {limitedLists.map((list) => (
                     <li key={list.id}>
@@ -518,7 +557,8 @@ const ListComponent = () => {
        <input
                     type="text"
                     value={searchName}
-                    onChange={(e) => setSearchName(e.target.value)}
+                    // onChange={(e) => setSearchName(e.target.value)}
+                    onChange={handleInputChange}
                     placeholder="Enter list name"
                 />
                 <button onClick={handleGetListByName}>Get list by name</button>

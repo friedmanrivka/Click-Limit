@@ -30,12 +30,12 @@ export default class ListApi{
                 const { description } = req.params;
                 const lists: List[] = await this.listService.getListByDescription(description);
                  if (lists.length === 0) {
-                    return res.status(404).send('No lists found with the given description.');
+                    return res.status(404)
                 }
 
                 return res.status(200).json(lists);
             } catch (err: any) {
-                return res.status(500).send(err.message);
+                return res.status(500)
             }
         });
        
@@ -44,11 +44,11 @@ export default class ListApi{
             try {
                 const results = await this.listService.getListByLimit(Number(limit));
                 if (results.length === 0) {
-                    return res.status(404).send('No lists found with the given limit.');
+                    return res.status(404)
                 }
                 res.status(200).json(results);
             } catch (err: any) {
-                return res.status(500).send(err.message);
+                return res.status(500)
             }
         });
        

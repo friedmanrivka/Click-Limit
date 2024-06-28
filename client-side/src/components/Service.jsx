@@ -71,7 +71,7 @@ export const isStringInList = async (i) => {
         const response = await axios.get(`${API_URL}/list/isStringInList/${i}`);
         return response.data;
     } catch (error) {
-        console.error('Error checking if string is in list:', error);
+       
         throw error;
     }
 };
@@ -81,7 +81,7 @@ export const getListByLimit=async (limit)=>{
         return response.data;
     }
     catch (error) {
-        console.error('Error getting list by limit:', error);
+      
         throw error;
     }
         
