@@ -251,12 +251,12 @@ public async addList(data: List): Promise<List> {
 }
 //#endregion
 //#region Yeudit/AyalaToChooseOneOfThem
-public async convertListToString(): Promise<string> {
+public async convertListToString(): Promise<string> {    
     try {
         const lists = await this.getAllLists();
         const items = lists.map((list: List) => {
             const appListItems = list.list.map((app: AppList) => `${app.id}: ${app.description}`).join(", ");
-            return `List ID:Apps: [${appListItems}]`;         
+            return `List ID:Apps: \n ${appListItems}`;         
         });
         return items.join(" | ");
     } catch (err: any) {
