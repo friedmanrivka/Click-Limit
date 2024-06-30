@@ -36,6 +36,7 @@ const ListComponent = () => {
     const [idAppFromList, setidAppFromList] = useState('');
     const [idList, setIdList] = useState('');
     const [idListDelete, setIdListDelete] = useState('');
+    const [statusString, setStatusString] = useState(false);
 
    // const [newAppId, setNewAppId] = useState('');
    // const [newAppdes, setNewAppdes] = useState('');
@@ -261,6 +262,7 @@ const ListComponent = () => {
     };
     //change
      const handleConvertListToString = async () => {
+        setStatusString(!statusString)
         try {
             const result = await convertListToString();
             setConvertedList(result);
@@ -354,7 +356,6 @@ const ListComponent = () => {
                 }
             }));
         };
-
 
         const handleToggleShowApps = (listId) => {
             setShowApps(prevState => ({
@@ -661,7 +662,7 @@ const ListComponent = () => {
             </List>
             <h2>Convert List to String</h2>
             <button onClick={handleConvertListToString}>Convert List to String</button>
-            <p>{convertedList}</p>
+           {statusString &&<p>{convertedList}</p>} 
 
             <h2>Check if String is in List</h2>
             <input
