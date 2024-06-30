@@ -165,19 +165,19 @@ const ListComponent = () => {
             console.error('Error creating list:', error);
         }
     };
-    const handleGetListByLimit = async (listId) => {
+    // const handleGetListByLimit = async (listId) => {
 
-        try {
-            console.log('Getting lists by limit:', limit);
-            const data = await getListByLimit(limit);
-            setLimitedLists(data);
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                setLimitMessageErorr('No lists found with the given limit.');
-            }
-            console.error('Error fetching lists by limit:', error);
-        }
-    };
+    //     try {
+    //         console.log('Getting lists by limit:', limit);
+    //         const data = await getListByLimit(limit);
+    //         setLimitedLists(data);
+    //     } catch (error) {
+    //         if (error.response && error.response.status === 404) {
+    //             setLimitMessageErorr('No lists found with the given limit.');
+    //         }
+    //         console.error('Error fetching lists by limit:', error);
+    //     }
+    // };
 
     const handleGetListByName = async () => {
 
@@ -653,22 +653,22 @@ const ListComponent = () => {
             <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p>
             {srtingMessageErorr && <p style={{ color: 'red' }}>{srtingMessageErorr}</p>}
             <div>
-
+{/* 
                 <div>
-                </div>
+                </div> */}
 
-                <h2>Limited Lists</h2>
+                {/* <h2>Limited Lists</h2>
                 <TextField
              
                     type="number"
-                    value={limit}
-                    // onChange={(e) => setLimit(Number(e.target.value))}
+                    value={limit} */}
+                    {/* // onChange={(e) => setLimit(Number(e.target.value))}
                     min="1"
                     placeholder="Enter limit"
                     onChange={handleLimitInputChange}
-                />
-                <Button onClick={handleGetListByLimit}  variant="contained" color="primary">Get Lists by Limit</Button>
-                {limitMessageErorr && <p style={{ color: 'red' }}>{limitMessageErorr}</p>}
+                /> */}
+                {/* <Button onClick={handleGetListByLimit}  variant="contained" color="primary">Get Lists by Limit</Button>
+                {limitMessageErorr && <p style={{ color: 'red' }}>{limitMessageErorr}</p>} */}
                 <ul>
                     {limitedLists.map((list) => (
                         <li key={list.id}>
