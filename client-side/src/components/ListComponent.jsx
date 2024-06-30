@@ -465,6 +465,8 @@ const ListComponent = () => {
 
             <h1>Lists</h1>
             <div>
+            
+                <Button onClick={() => handleCreateList(newListName, newListDescription, newListLimit, () => fetchLists(setLists))} variant="contained" color="primary">Create List</Button>
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -566,24 +568,8 @@ const ListComponent = () => {
                                                 <ListItemText
                                                     primary={item.appName}
                                                     secondary={
-                                                        <><div>
-                                                            <TextField
-             
-                                                                type="text"
-                                                                // value={appId}
-                                                                onChange={(e) => setAppId(e.target.value)}
-                                                                placeholder="New list name"
-                                                            />
-                                                            <TextField
-             
-                                                                type="text"
-                                                                onChange={(e) => setAppDescription(e.target.value)}
-                                                                placeholder="New list description"
-                                                            />
-
-                                                            <Button onClick={() => handleAddApp(list.id)}>insert ListApp</Button>
-                                                        </div>
-                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)}>Delete by ID</Button>
+                                                        <>
+                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)}variant="contained" color="primary">Delete app</Button>
                                                             <Typography
                                                                 sx={{ display: 'inline' }}
                                                                 component="span"
@@ -620,13 +606,27 @@ const ListComponent = () => {
                                         </React.Fragment>
                                     ))}
                                 </List>
-                                <Button onClick={() => handleDeleteListById(list.id)}>Delete LIst by ID</Button>
+                                <div>
+                                                            <TextField
+             
+                                                                type="text"
+                                                                // value={appId}
+                                                                onChange={(e) => setAppId(e.target.value)}
+                                                                placeholder="New list name"
+                                                            />
+                                                            <TextField
+             
+                                                                type="text"
+                                                                onChange={(e) => setAppDescription(e.target.value)}
+                                                                placeholder="New list description"
+                                                            />
+
+                                                            <Button onClick={() => handleAddApp(list.id)}  variant="contained" color="primary">insert ListApp</Button>
+                                                   </div>
+                                                   <ListItem>  <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="primary">Delete LIst by ID</Button></ListItem>   
 
 
-                                <ListItem>
-                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>
-
-                                </ListItem>
+                                
                                 <Divider variant="inset" component="li" />
                             </>
                         )}
