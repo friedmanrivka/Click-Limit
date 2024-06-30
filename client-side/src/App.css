@@ -23,10 +23,21 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-span{
-  /* font-size: 0.4em; */
-
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 50px;
 }
+
+.flex-item {
+  margin-top: 50px;
+  flex: 1;
+  margin: 10px;
+  max-width: calc(33% - 20px); /* Adjust this as necessary */
+  box-sizing: border-box;
+}
+
 .home-page {
   position: relative;
   width: 100%;

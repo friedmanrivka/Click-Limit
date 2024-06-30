@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api';
-// const API_URL1 = 'http://localhost:8080/api/list/B';
 export const getList = async () => {
     try {
         const response = await axios.get(`${API_URL}/list`);
