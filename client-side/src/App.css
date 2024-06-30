@@ -24,7 +24,12 @@
   color: white;
 }
 span{
-  font-size: 0.4em;
+  /* font-size: 0.4em; */
+
+}
+.buttonName {
+  color: greenyellow;
+  size: 30px;
 }
 .App-link {
   color: #61dafb;
@@ -33,6 +38,8 @@ Button{
   width: 15px;
   height: 25px;
 }
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
