@@ -1084,10 +1084,11 @@ const ListComponent = () => {
 
     return (
         <Container>  
-            {/* <div className="home-page"> */}
+           
         <img src={logo} alt="Description" className="header-image"/>
-      {/* </div> */}
-            <div id='line'>
+   
+        <div className="flex-container">
+        <div className="flex-item">
              <Paper style={{ padding: '20px', marginTop: '20px', maxWidth: '400px', margin: '0 auto' }}>
     <Typography variant="h5" component="h2" gutterBottom>
       
@@ -1098,21 +1099,8 @@ const ListComponent = () => {
     </Button>
     {statusString && <Typography variant="body1" style={{ marginTop: '20px' }}>{convertedList}</Typography>}
 </Paper>
-            {/* <h2>Check if String is in List</h2>
-            <TextField
-                type="text"
-                size="small"
-                style={{ width: '100px' }}
-                value={stringToCheck}
-                onChange={(e) => {
-                    setStringToCheck(e.target.value);
-                    setStringMessageError('');
-                }}
-                placeholder="Enter string to check"
-            /> */}
-            {/* <Button onClick={handleCheckStringInList} variant="contained" color="primary">Check String in List</Button> */}
-            {/* <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p> */}
-            {/* {stringMessageError && <p style={{ color: 'red' }}>{stringMessageError}</p>} */}
+</div>
+            <div className="flex-item">
             <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
     <Typography variant="h5" component="h2" gutterBottom>
     
@@ -1138,35 +1126,10 @@ const ListComponent = () => {
     </Typography>
     {srtingMessageErorr && <Typography variant="body1" color="error">{srtingMessageErorr}</Typography>}
 </Paper>
+</div>
             <div>
-           {/* <TextField
-                    type="text"
-                    value={searchName}
-                    size="small"
-                    style={{ width: '100px' }}
-                    onChange={handleInputChange}
-                    placeholder="Enter list name"
-                />
-                <Button onClick={handleGetListByName} variant="contained" color="primary"><span className='buttonName'>Get List by Name</span></Button> */}
-                {/* {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
-                {listByName && (
-                    <div>
-                        <p>{listByName.id}</p>
-                        <p>Description: {listByName.description}</p>
-                        <p>Limit: {listByName.limit}</p>
-                        <p>Creation Date: {new Date(listByName.creationDate).toLocaleString()}</p>
-                        <p>Updated Date: {new Date(listByName.updatedDate).toLocaleString()}</p>
-                        <ul>
-                            {listByName.list.map((item, index) => (
-                                <li key={index}>
-                                    <p>App Name: {item.appName}</p>
-                                    <p>Description: {item.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
-                {/* )} */}
-
+          
+                <div className='flext-item'>
                 <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
     <Typography variant="h5" component="h2" gutterBottom>
       
@@ -1180,6 +1143,7 @@ const ListComponent = () => {
         placeholder="Enter list name"
         style={{ marginBottom: '10px' }}
     />
+
     <Button onClick={handleGetListByName} variant="contained" color="primary" fullWidth><span className='buttonName'>
         Get List by Name
         </span></Button>
@@ -1202,7 +1166,10 @@ const ListComponent = () => {
             </ul>
         </div>
     )}
-</Paper></div></div><div id='line'>
+</Paper></div></div></div>
+
+<div className="flex-container">
+       <div className="flex-item">
              <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
         <Typography variant="h5" component="h2" gutterBottom>
         
@@ -1223,7 +1190,8 @@ const ListComponent = () => {
                 {deleteMessageError && <p style={{ color: 'red' }}>{deleteMessageError}</p>}
             </div>
             
-            </Paper>  <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
+            </Paper> </div>
+            <div className="flex-item">  <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
     <Typography variant="h5" component="h2" gutterBottom>
     
     </Typography>
@@ -1290,7 +1258,9 @@ const ListComponent = () => {
             {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
             <br /> 
             </Paper>
-             <Paper style={{ padding: '20px', marginTop: '50px', maxWidth: '400px', margin: '0 auto'}}>
+            </div>
+                <div className="flex-item"></div>
+                <div className="flex-item"><Paper style={{ padding: '20px', marginTop: '50px', maxWidth: '400px', margin: '0 auto'}}>
 
     <Typography variant="h5" component="h2"style={{  marginTop:'20px'}} gutterBottom>
     
@@ -1335,7 +1305,7 @@ const ListComponent = () => {
                 placeholder="New list description"
             />
             <Button onClick={handleCreateList}  variant="contained" color="primary" fullWidth><span className='buttonName'>Create</span></Button>
-            </Paper></div>
+            </Paper></div></div> 
             <h1>Lists</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <List sx={{ width: '100%', maxWidth: 1300, bgcolor: 'background.paper' }}>
