@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import  { getList , createList, deleteListById, convertListToString, isStringInList,deleteAppFromList,addApp,getListByLimit,getListByName,updateLimit,updateDescription,updateAppDescription} from './Service';
+import { getList, createList, deleteListById, convertListToString, isStringInList, deleteAppFromList, addApp, getListByLimit, getListByName, updateLimit, updateDescription, updateAppDescription } from './Service';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
@@ -38,26 +38,26 @@ const ListComponent = () => {
     const [idListDelete, setIdListDelete] = useState('');
     const [statusString, setStatusString] = useState(false);
 
-   // const [newAppId, setNewAppId] = useState('');
-   // const [newAppdes, setNewAppdes] = useState('');
+    // const [newAppId, setNewAppId] = useState('');
+    // const [newAppdes, setNewAppdes] = useState('');
 
     // const [apps, setApps] = useState([]);
-   const [messageErorr, setMessageErorr] = useState('');
-   const [limitMessageErorr, setLimitMessageErorr] = useState('');
-   const [srtingMessageErorr, setStringMessageErorr] = useState('');
-   const [deleteMessageErorr, setDeleteMessageErorr] = useState('');
-   const [createListError, setCreateListError] = useState('');
-   const [deleteAppMessageErorr, setDeleteAppMessageErorr] = useState('');
-   const [deleteListMessageErorr, setDeleteListMessageErorr] = useState('');
-   const [addAppError, setAddAppError] = useState('');
-   const [addUpdateDescriptionError, setAddUpdateDescriptionError] = useState('');
-  
+    const [messageErorr, setMessageErorr] = useState('');
+    const [limitMessageErorr, setLimitMessageErorr] = useState('');
+    const [srtingMessageErorr, setStringMessageErorr] = useState('');
+    const [deleteMessageErorr, setDeleteMessageErorr] = useState('');
+    const [createListError, setCreateListError] = useState('');
+    const [deleteAppMessageErorr, setDeleteAppMessageErorr] = useState('');
+    const [deleteListMessageErorr, setDeleteListMessageErorr] = useState('');
+    const [addAppError, setAddAppError] = useState('');
+    const [addUpdateDescriptionError, setAddUpdateDescriptionError] = useState('');
+
     useEffect(() => {
         fetchLists();
     }, []);
     const handleInputChange = (e) => {
         setSearchName(e.target.value);
-        setMessageErorr(''); 
+        setMessageErorr('');
         setListByName(null);
     }
     // const handleLimitInputChange = (e) => {
@@ -80,10 +80,10 @@ const ListComponent = () => {
             setError('there is not like this limit'); // Set error message
         }
     };
-    
-     const handleAddApp = async (idList) => {
-        
-    
+
+    const handleAddApp = async (idList) => {
+
+
         let errorMessages = [];
 
         if (!idList.trim()) {
@@ -91,39 +91,39 @@ const ListComponent = () => {
         } else if (/^\d+$/.test(idList)) {
             errorMessages.push('The list name must be text, not a number.');
         }
-    
+
         if (!appId.trim()) {
             errorMessages.push('Please enter the name of the app.');
         } else if (/^\d+$/.test(appId)) {
             errorMessages.push('The app name must be text, not a number.');
         }
-    
+
         if (!appDescription.trim()) {
             errorMessages.push('Please enter the description of the app.');
         }
-    if (/^\d+$/.test(appDescription)) {
-        errorMessages.push('The app decription must be text, not a number.');
-    }
+        if (/^\d+$/.test(appDescription)) {
+            errorMessages.push('The app decription must be text, not a number.');
+        }
         if (errorMessages.length > 0) {
             setAddAppError(errorMessages.join(' '));
             return;
         }
-        
+
         try {
             const app = {
                 id: appId,
                 description: appDescription
-          
+
             }
-             await addApp(idList,app);
-            fetchLists(); 
-            setAddAppError('the app added successfully'); 
-        
-            }catch (error) {
-                console.error('Error creating list:', error);
-                 }
-            };
-  const fetchLists = async () => {
+            await addApp(idList, app);
+            fetchLists();
+            setAddAppError('the app added successfully');
+
+        } catch (error) {
+            console.error('Error creating list:', error);
+        }
+    };
+    const fetchLists = async () => {
         try {
             console.log("Fetching lists...");
             const data = await getList();
@@ -133,17 +133,17 @@ const ListComponent = () => {
             console.error('Error fetching lists:', error);
         }
     };
-       const handleCreateList = async () => {
+    const handleCreateList = async () => {
         if (!newListName.trim()) {
             setCreateListError('List name is required.');
             return;
         }
-    
+
         if (!newListDescription.trim()) {
             setCreateListError('List description is required.');
             return;
         }
-    
+
         if (isNaN(newListLimit) || newListLimit <= 0) {
             setCreateListError('Limit must be a positive number.');
             return;
@@ -165,8 +165,8 @@ const ListComponent = () => {
             console.error('Error creating list:', error);
         }
     };
-       const handleGetListByLimit = async (listId) => {
-        
+    const handleGetListByLimit = async (listId) => {
+
         try {
             console.log('Getting lists by limit:', limit);
             const data = await getListByLimit(limit);
@@ -174,18 +174,18 @@ const ListComponent = () => {
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setLimitMessageErorr('No lists found with the given limit.');
-            } 
+            }
             console.error('Error fetching lists by limit:', error);
         }
     };
 
     const handleGetListByName = async () => {
-       
+
         if (!searchName.trim()) {
             setMessageErorr('Please enter the name of the list you want to search.');
             return;
         }
-    
+
         if (/^\d+$/.test(searchName)) {
             setMessageErorr('The name must be text, not a number.');
             return;
@@ -193,28 +193,28 @@ const ListComponent = () => {
 
         try {
             const data = await getListByName(searchName);
-            console.log(data);  
+            console.log(data);
             setListByName(data);
-          setMessageErorr('');
+            setMessageErorr('');
         }
         catch (error) {
             if (error.response && error.response.status === 404) {
                 setMessageErorr('List not found.');
             }
-            
+
             console.error('Error fetching list by name:', error);
         }
     };
-       const handleDeleteListById = async (id) => {  
+    const handleDeleteListById = async (id) => {
         if (!idListDelete.trim()) {
             setDeleteMessageErorr('Please enter a string to delete.');
             return;
         }
-    
+
         if (/^\d+$/.test(idListDelete)) {
             setDeleteMessageErorr('The input must be text, not a number.');
             return;
-        }    
+        }
         try {
             await deleteListById(id);
             fetchLists();
@@ -229,39 +229,39 @@ const ListComponent = () => {
         }
     };
 
-     const handleDeleteAppFromListByName = async (idList,idApp) => {
+    const handleDeleteAppFromListByName = async (idList, idApp) => {
         let hasError = false;
         if (!idList.trim()) {
             setDeleteListMessageErorr('Please enter the name of the list.');
-          
+
         }
-    
+
         if (/^\d+$/.test(idList)) {
             setDeleteListMessageErorr('The list name must be text, not a number.');
-           
+
         }
-    
+
         if (!idApp.trim()) {
             setDeleteAppMessageErorr('Please enter the name of the app.');
-           
+
         }
-    
+
         if (/^\d+$/.test(idApp)) {
             setDeleteAppMessageErorr('The app name must be text, not a number.');
-            
+
         }
         try {
-            await deleteAppFromList(idList,idApp);
+            await deleteAppFromList(idList, idApp);
             fetchLists();
             setDeleteAppMessageErorr('');
             setDeleteListMessageErorr('');
         } catch (error) {
             console.error('Error deleting list by idList,idApp:', error);
-            
+
         }
     };
     //change
-     const handleConvertListToString = async () => {
+    const handleConvertListToString = async () => {
         setStatusString(!statusString)
         try {
             const result = await convertListToString();
@@ -273,12 +273,12 @@ const ListComponent = () => {
     };
     //change
 
-      const handleCheckStringInList = async () => {
+    const handleCheckStringInList = async () => {
         if (!stringToCheck.trim()) {
             setStringMessageErorr('Please enter a string to check.');
             return;
         }
-    
+
         if (/^\d+$/.test(stringToCheck)) {
             setStringMessageErorr('The input must be text, not a number.');
             return;
@@ -294,188 +294,146 @@ const ListComponent = () => {
         }
 
     }
-         const handleUpdateLimit = async (id, newLimit, setError, fetchLists) => {
-            try {
-                const limit = parseInt(newLimit[id], 10);
-                if (isNaN(limit)) {
-                    setError('Limit must be a number');
-                    return;
-                }
-                setError('');
-                await updateLimit(id, limit);
-                fetchLists();
-            } catch (error) {
-                console.error('Error updating limit:', error);
-            }
-        };
-        
-           const handleUpdateDescription = async (id, newDescription, fetchLists) => {
-            if (!newDescription[id]?.trim()) {
-                setAddUpdateDescriptionError('Please enter a description.');
+    const handleUpdateLimit = async (id, newLimit, setError, fetchLists) => {
+        try {
+            const limit = parseInt(newLimit[id], 10);
+            if (isNaN(limit)) {
+                setError('Limit must be a number');
                 return;
             }
-            
-            if (/^\d+$/.test(newDescription[id])) {
-                setAddUpdateDescriptionError('The description must be text, not a number.');
-                return;
-            }
-        
-            try {
-                const description = newDescription[id];
-                await updateDescription(id, description);
-                fetchLists();
-            } catch (error) {
-                console.error('Error updating description:', error);
-            }
-        };
-        
-             const handleUpdateAppDescription = async (listId, appId, newAppDescriptions, fetchLists) => {
-            try {
-                const description = newAppDescriptions[listId]?.[appId];
-                await updateAppDescription(listId, appId, description);
-                fetchLists();
-            } catch (error) {
-                console.error('Error updating app description:', error);
-            }
-        };
-        
-           const handleLimitChange = (id, value, setNewLimit) => {
-            setNewLimit(prevState => ({ ...prevState, [id]: value }));
-        };
-        
-            const handleDescriptionChange = (id, value, setNewDescription) => {
-            setNewDescription(prevState => ({ ...prevState, [id]: value }));
-        };
-        
-              const handleAppDescriptionChange = (listId, appId, value, setNewAppDescriptions) => {
-            setNewAppDescriptions(prevState => ({
-                ...prevState,
-                [listId]: {
-                    ...prevState[listId],
-                    [appId]: value
-                }
-            }));
-        };
+            setError('');
+            await updateLimit(id, limit);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating limit:', error);
+        }
+    };
 
-        const handleToggleShowApps = (listId) => {
-            setShowApps(prevState => ({
-                ...prevState,
-                [listId]: !prevState[listId]
-            }));
-        };
+    const handleUpdateDescription = async (id, newDescription, fetchLists) => {
+        if (!newDescription[id]?.trim()) {
+            setAddUpdateDescriptionError('Please enter a description.');
+            return;
+        }
+
+        if (/^\d+$/.test(newDescription[id])) {
+            setAddUpdateDescriptionError('The description must be text, not a number.');
+            return;
+        }
+
+        try {
+            const description = newDescription[id];
+            await updateDescription(id, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating description:', error);
+        }
+    };
+
+    const handleUpdateAppDescription = async (listId, appId, newAppDescriptions, fetchLists) => {
+        try {
+            const description = newAppDescriptions[listId]?.[appId];
+            await updateAppDescription(listId, appId, description);
+            fetchLists();
+        } catch (error) {
+            console.error('Error updating app description:', error);
+        }
+    };
+
+    const handleLimitChange = (id, value, setNewLimit) => {
+        setNewLimit(prevState => ({ ...prevState, [id]: value }));
+    };
+
+    const handleDescriptionChange = (id, value, setNewDescription) => {
+        setNewDescription(prevState => ({ ...prevState, [id]: value }));
+    };
+
+    const handleAppDescriptionChange = (listId, appId, value, setNewAppDescriptions) => {
+        setNewAppDescriptions(prevState => ({
+            ...prevState,
+            [listId]: {
+                ...prevState[listId],
+                [appId]: value
+            }
+        }));
+    };
+
+    const handleToggleShowApps = (listId) => {
+        setShowApps(prevState => ({
+            ...prevState,
+            [listId]: !prevState[listId]
+        }));
+    };
     return (
-        <div>   
-            <div>
-    <input
-     type="text"
-     // value={appId}
-    //  onChange={(e) => setIdListDelete(e.target.value)}
-    onChange={(e) => {
-        setIdListDelete(e.target.value);
-        setDeleteMessageErorr(''); // Clear error message on input change
-    }}
-     placeholder="List Id for delete"
-     />
-    <Button onClick={() => handleDeleteListById(idListDelete)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                        
-    {deleteMessageErorr && <p style={{ color: 'red' }}>{deleteMessageErorr}</p>}
-     </div>
-<div>
-    <input
-     type="text"
-     // value={appId}
-     onChange={(e) => {
-        setIdList(e.target.value);
-        setDeleteListMessageErorr(''); // Clear error message on input change
-    }}
-     placeholder="List Id"
-     />
-    <input
-    type="text"
-    onChange={(e) => {
-        setidAppFromList(e.target.value);
-        setDeleteAppMessageErorr(''); // Clear error message on input change
-    }}
-    placeholder="App List Id"
-    />
-    <button onClick={() => handleDeleteAppFromListByName(idList,idAppFromList)}>Delete appList by ID</button>            
-    {deleteAppMessageErorr && <p style={{ color: 'red' }}>{deleteAppMessageErorr}</p>}
-    {deleteListMessageErorr && <p style={{ color: 'red' }}>{deleteListMessageErorr}</p>}
-     </div>
-            <br></br>
-              <input
-        type="text"
-        onChange={(e) => {
-            setlistId(e.target.value);
-            setAddAppError(''); // Clear error message on input change
-        }}
-       
-       
-        placeholder="which applist you whant to add"
-    />
-        <input
-        type="text"
-     
-        onChange={(e) => {
-            setAppId(e.target.value);
-            setAddAppError(''); // Clear error message on input change
-        }}
-        placeholder="New applist name"
-    />
-    <input
-        type="text"
-        onChange={(e) => {
-            setAppDescription(e.target.value);
-            setAddAppError(''); // Clear error message on input change
-        }}
-       
-        placeholder="New applist description"
-    />
-
-    <button onClick={() => handleAddApp(listId)}>insert ListApp</button>
-    {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
-            <br></br>
-              <input
-                    type="text"
-                    value={newListName}
-                    onChange={(e) => {
-                        setNewListName(e.target.value);
-                        setCreateListError(''); // Clear error message on input change
-                    }}
-                    placeholder="New list ID"
-                />
-                <input
-                    type="text"
-                    value={newListDescription}
-                    onChange={(e) => {
-                        setNewListName(e.target.value);
-                        setCreateListError(''); // Clear error message on input change
-                    }}
-                    placeholder="New list description"
-                />
-                <input
-                    type="number"
-                    value={newListLimit}
-                    onChange={(e) => {
-                        setNewListName(e.target.value);
-                        setCreateListError(''); // Clear error message on input change
-                    }}
-                    placeholder="Limit"
-                />
-                 <input
-                        type="text"
-                             // value={appId}
-                                    onChange={(e) => setAppId(e.target.value)}
-                                    placeholder="New list name"
-                                />
-                                <input
-                                    type="text"
-                                    onChange={(e) => setAppDescription(e.target.value)}
-                                    placeholder="New list description"
-                                />           <button onClick={handleCreateList}>Create</button>
-
-             <h1>Lists</h1>
+        <div>
             <div>
                 <TextField
+                    type="text"
+                    // value={appId}
+                    //  onChange={(e) => setIdListDelete(e.target.value)}
+                    onChange={(e) => {
+                        setIdListDelete(e.target.value);
+                        setDeleteMessageErorr(''); // Clear error message on input change
+                    }}
+                    placeholder="delete list by name"
+                />
+                <Button onClick={() => handleDeleteListById(idListDelete)}  variant="contained" color="primary" style={{ marginRight: '10px' }}>Delete list by name</Button>
+                {deleteMessageErorr && <p style={{ color: 'red' }}>{deleteMessageErorr}</p>}
+            </div>
+            <div>
+                <TextField
+                    type="text"
+                    // value={appId}
+                    onChange={(e) => {
+                        setIdList(e.target.value);
+                        setDeleteListMessageErorr(''); // Clear error message on input change
+                    }}
+                    placeholder="List name"
+                />
+                <TextField
+                    type="text"
+                    onChange={(e) => {
+                        setidAppFromList(e.target.value);
+                        setDeleteAppMessageErorr(''); // Clear error message on input change
+                    }}
+                    placeholder="App name"
+                />
+                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)}  variant="contained" color="primary" >Delete app by name</Button>
+                {deleteAppMessageErorr && <p style={{ color: 'red' }}>{deleteAppMessageErorr}</p>}
+                {deleteListMessageErorr && <p style={{ color: 'red' }}>{deleteListMessageErorr}</p>}
+            </div>
+            <br></br>
+            <TextField
+                type="text"
+                onChange={(e) => {
+                    setlistId(e.target.value);
+                    setAddAppError(''); // Clear error message on input change
+                }}
+
+
+                placeholder="which applist you whant to add"
+            />
+            <TextField
+                type="text"
+                onChange={(e) => {
+                    setAppId(e.target.value);
+                    setAddAppError(''); // Clear error message on input change
+                }}
+                placeholder="New applist name"
+            />
+            <TextField
+                type="text"
+                onChange={(e) => {
+                    setAppDescription(e.target.value);
+                    setAddAppError(''); // Clear error message on input change
+                }}
+
+                placeholder="New applist description"
+            />
+
+            <Button onClick={() => handleAddApp(listId)}  variant="contained" color="primary">insert ListApp</Button>
+            {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
+            <br></br>
+            <TextField
                     type="text"
                     value={newListName}
                     onChange={(e) => setNewListName(e.target.value)}
@@ -493,17 +451,30 @@ const ListComponent = () => {
                     onChange={(e) => setNewListLimit(e.target.value)}
                     placeholder="Limit"
                 />
-                <Button onClick={() => handleCreateList(newListName, newListDescription, newListLimit, () => fetchLists(setLists))} variant="contained" color="primary">Create List</Button>
+            <TextField
+                type="text"
+                // value={appId}
+                onChange={(e) => setAppId(e.target.value)}
+                placeholder="New list name"
+            />
+            <TextField
+                type="text"
+                onChange={(e) => setAppDescription(e.target.value)}
+                placeholder="New list description"
+            />           <Button onClick={handleCreateList}  variant="contained" color="primary">Create</Button>
+
+            <h1>Lists</h1>
+            <div>
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            
+
             <List sx={{ width: '100%', maxWidth: 1300, bgcolor: 'background.paper' }}>
                 {lists.map((list) => (
                     <React.Fragment key={list.id}>
                         <ListItem alignItems="flex-start">
                             <ListItemText
                                 primary={list.id}
-                               
+
                             />
                             <Button onClick={() => handleToggleShowApps(list.id)} variant="contained" color="primary">
                                 {showApps[list.id] ? 'Hide' : 'Show'}
@@ -514,7 +485,7 @@ const ListComponent = () => {
                         {showApps[list.id] && (
                             <>
                                 <ListItem>
-                                
+
                                     <>
                                         <Typography
                                             sx={{ display: 'inline' }}
@@ -552,19 +523,19 @@ const ListComponent = () => {
                                             Updated Date: {new Date(list.updatedDate).toLocaleString()}
                                         </Typography>
                                     </>
-                                    
-                               
-                                <br></br>
+
+
+                                    <br></br>
                                     <TextField
                                         type="number"
-                                         min="1"
+                                        min="1"
                                         value={newLimit[list.id] || ''}
                                         // onChange={(e) => handleLimitChange(list.id, e.target.value, setNewLimit)}
                                         onChange={(e) => handleLimitInputChange(list.id, e.target.value, setNewLimit, setError)}
                                         placeholder="New Limit"
                                         style={{ marginRight: '10px' }}
 
-                                        
+
                                     />
                                     <TextField
                                         type="text"
@@ -575,14 +546,14 @@ const ListComponent = () => {
                                         // }
                                         onChange={(e) => {
                                             handleDescriptionChange(list.id, e.target.value, setNewDescription);
-                                            setAddUpdateDescriptionError('');  ; // Clear error message on input change
+                                            setAddUpdateDescriptionError('');; // Clear error message on input change
                                         }}
-                                      
+
                                         placeholder="New Description"
                                         style={{ marginRight: '10px' }}
                                     />
                                     <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, () => fetchLists(setLists))} variant="contained" color="primary" style={{ marginRight: '10px' }}>Update Limit</Button>
-                                    
+
                                     <Button onClick={() => handleUpdateDescription(list.id, newDescription, () => fetchLists(setLists))} variant="contained" color="primary">Update Description</Button>
                                     {addUpdateDescriptionError && <p style={{ color: 'red' }}>{addUpdateDescriptionError}</p>}
                                 </ListItem>
@@ -596,22 +567,24 @@ const ListComponent = () => {
                                                     primary={item.appName}
                                                     secondary={
                                                         <><div>
-                                                        <input
-                                                            type="text"
-                                                            // value={appId}
-                                                            onChange={(e) => setAppId(e.target.value)}
-                                                            placeholder="New list name"
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            onChange={(e) => setAppDescription(e.target.value)}
-                                                            placeholder="New list description"
-                                                        />
-                                         
-                                                        <button onClick={() => handleAddApp(list.id)}>insert ListApp</button>
-                                                    </div>
-                                                         <button onClick={() => handleDeleteAppFromListByName(list.id,item.id)}>Delete by ID</button>
-                                                        <Typography
+                                                            <TextField
+             
+                                                                type="text"
+                                                                // value={appId}
+                                                                onChange={(e) => setAppId(e.target.value)}
+                                                                placeholder="New list name"
+                                                            />
+                                                            <TextField
+             
+                                                                type="text"
+                                                                onChange={(e) => setAppDescription(e.target.value)}
+                                                                placeholder="New list description"
+                                                            />
+
+                                                            <Button onClick={() => handleAddApp(list.id)}>insert ListApp</Button>
+                                                        </div>
+                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)}>Delete by ID</Button>
+                                                            <Typography
                                                                 sx={{ display: 'inline' }}
                                                                 component="span"
                                                                 variant="body2"
@@ -647,12 +620,12 @@ const ListComponent = () => {
                                         </React.Fragment>
                                     ))}
                                 </List>
-                                <button onClick={() => handleDeleteListById(list.id)}>Delete LIst by ID</button>
-                              
+                                <Button onClick={() => handleDeleteListById(list.id)}>Delete LIst by ID</Button>
+
 
                                 <ListItem>
-                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>                                  
-                     
+                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="secondary" style={{ marginRight: '10px' }}>Delete by ID</Button>
+
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
                             </>
@@ -661,71 +634,74 @@ const ListComponent = () => {
                 ))}
             </List>
             <h2>Convert List to String</h2>
-            <button onClick={handleConvertListToString}>Convert List to String</button>
-           {statusString &&<p>{convertedList}</p>} 
+            <Button onClick={handleConvertListToString}  variant="contained" color="primary">Convert List to String</Button>
+            {statusString && <p>{convertedList}</p>}
 
             <h2>Check if String is in List</h2>
-            <input
+            <TextField
+             
                 type="text"
                 value={stringToCheck}
                 onChange={(e) => {
                     setStringToCheck(e.target.value);
                     setStringMessageErorr(''); // Clear error message on input change
                 }}
-            
+
                 placeholder="Enter string to check"
             />
-            <button onClick={handleCheckStringInList}>Check String in List</button>
+            <Button onClick={handleCheckStringInList}  variant="contained" color="primary">Check String in List</Button>
             <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p>
             {srtingMessageErorr && <p style={{ color: 'red' }}>{srtingMessageErorr}</p>}
-       <div>
-    
-<div>
-</div>
-            
-      <h2>Limited Lists</h2>
-      <input
-                type="number"
-                value={limit}
-                // onChange={(e) => setLimit(Number(e.target.value))}
-                min="1"
-                placeholder="Enter limit"
-                onChange={handleLimitInputChange}
-            />
-            <button onClick={handleGetListByLimit}>Get Lists by Limit</button>
-            {limitMessageErorr && <p style={{ color: 'red' }}>{limitMessageErorr}</p>}
-            <ul>
-            {limitedLists.map((list) => (
-                    <li key={list.id}>
-                        <p>{list.id}</p>
-                        <p>Description: {list.description}</p>
-                        <p>Limit: {list.limit}</p>
-                        <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
-                        <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
-                        <ul>
-                            {list.list.map((item, index) => (
-                                <li key={index}>
-                                    <p>App Name: {item.id}</p>
-                                    <p>Description: {item.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
-       </div>
-       <div>
-       <h2>get list by names</h2>
-       <input
+            <div>
+
+                <div>
+                </div>
+
+                <h2>Limited Lists</h2>
+                <TextField
+             
+                    type="number"
+                    value={limit}
+                    // onChange={(e) => setLimit(Number(e.target.value))}
+                    min="1"
+                    placeholder="Enter limit"
+                    onChange={handleLimitInputChange}
+                />
+                <Button onClick={handleGetListByLimit}  variant="contained" color="primary">Get Lists by Limit</Button>
+                {limitMessageErorr && <p style={{ color: 'red' }}>{limitMessageErorr}</p>}
+                <ul>
+                    {limitedLists.map((list) => (
+                        <li key={list.id}>
+                            <p>{list.id}</p>
+                            <p>Description: {list.description}</p>
+                            <p>Limit: {list.limit}</p>
+                            <p>Creation Date: {new Date(list.creationDate).toLocaleString()}</p>
+                            <p>Updated Date: {new Date(list.updatedDate).toLocaleString()}</p>
+                            <ul>
+                                {list.list.map((item, index) => (
+                                    <li key={index}>
+                                        <p>App Name: {item.id}</p>
+                                        <p>Description: {item.description}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <div>
+                <h2>get list by names</h2>
+                <TextField
+             
                     type="text"
                     value={searchName}
                     // onChange={(e) => setSearchName(e.target.value)}
                     onChange={handleInputChange}
                     placeholder="Enter list name"
                 />
-                <button onClick={handleGetListByName}>Get list by name</button>
+                <Button onClick={handleGetListByName}  variant="contained" color="primary">Get list by name</Button>
                 {messageErorr && <p style={{ color: 'red' }}>{messageErorr}</p>}
-{listByName && (
+                {listByName && (
                     <div>
                         <p>{listByName.id}</p>
                         <p>Description: {listByName.description}</p>
@@ -742,10 +718,9 @@ const ListComponent = () => {
                         </ul>
                     </div>
                 )}
-       </div>      
+            </div>
         </div>
-);
+    );
 };
 
 export default ListComponent;
-    
