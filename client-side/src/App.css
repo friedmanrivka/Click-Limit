@@ -27,6 +27,18 @@ span{
   /* font-size: 0.4em; */
 
 }
+.home-page {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* גובה כל הדף */
+}
+
+.header-image {
+margin-left: 35%;
+  width: 30%;
+  height: 12.5vh; /* שמינית מהדף */
+  object-fit: cover; /* שומר על יחס גובה-רוחב */
+}
 .buttonName {
   color: greenyellow;
   size: 30px;

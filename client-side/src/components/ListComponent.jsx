@@ -765,6 +765,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField, Button, List, ListItem, Divider, ListItemText, Typography, Paper, Grid, Box } from '@mui/material';
 import { getList, createList, deleteListById, convertListToString, isStringInList, deleteAppFromList, addApp, getListByLimit, getListByName, updateLimit, updateDescription, updateAppDescription } from './Service';
+import logo from '../images/logo.png'
 
 const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
@@ -1082,7 +1083,10 @@ const ListComponent = () => {
     };
 
     return (
-        <Container> 
+        <Container>  
+            {/* <div className="home-page"> */}
+        <img src={logo} alt="Description" className="header-image"/>
+      {/* </div> */}
             <div id='line'>
              <Paper style={{ padding: '20px', marginTop: '20px', maxWidth: '400px', margin: '0 auto' }}>
     <Typography variant="h5" component="h2" gutterBottom>
