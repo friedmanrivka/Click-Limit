@@ -107,7 +107,7 @@ public async updateAppDescription(id: string, appId: string, newDescription: str
 public async updateLimit(id: string, newLimit: number): Promise<number | null> {
     try {
         const result = await this.collection.findOneAndUpdate(
-            { id: String }, // Use string ID directly
+            { id: id }, // Use string ID directly
             { $set: { limit: newLimit, updatedDate: new Date() } },
             { returnDocument: 'after' } // Return the updated document
         );
@@ -125,7 +125,7 @@ public async updateDescription(id: string, newDescription: string): Promise<stri
    
     try {
         const result = await this.collection.findOneAndUpdate(
-            { id: String }, 
+            { id: id }, 
             { $set: { description: newDescription, updatedDate: new Date() } },
             { returnDocument: 'after' } 
         );
