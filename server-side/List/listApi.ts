@@ -145,15 +145,19 @@ export default class ListApi{
     //#endregion
     //#region DeleteList
     this.router.delete('/:id',validateId,async (req: Request, res: Response) => {
+        console.log('api')
         try {
             const { id } = req.params;
             console.log("id:",id);
             const success = await this.listService.deleteList(id);
             if (success) {
                 res.status(200).send('Main Record deleted');
-            } else {
-                res.status(404);
+            } 
+            if (!success) {
+                return res.status(404).send('List not found.');
             }
+    
+           
         } catch (err: any) {
             res.status(500).send(`Failed to delete list: ${err.message}`);
         }
