@@ -42,7 +42,7 @@ console.log(limit);
     }
 }
 public async getListById(id: string): Promise<List | null> {
-   
+ 
     try {
         const result = await this.collection.findOne({id });
         console.log(id);

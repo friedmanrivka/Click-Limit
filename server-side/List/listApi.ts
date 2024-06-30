@@ -53,8 +53,8 @@ export default class ListApi{
         });
        
         this.router.get('/id/:id', async (req: Request, res: Response) => {
-          
-            try {
+           
+           try {
                 const { id } = req.params;
                 const list = await this.listService.getListById(id);
                 
