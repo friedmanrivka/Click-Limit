@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
+
 const ListComponent = () => {
 
     const [limitedLists, setLimitedLists] = useState([]);
@@ -118,6 +119,9 @@ const ListComponent = () => {
             await addApp(idList, app);
             fetchLists();
             setAddAppError('the app added successfully');
+            setTimeout(() => {
+                setAddAppError('');
+            }, 3000);
 
         } catch (error) {
             console.error('Error creating list:', error);
@@ -165,19 +169,7 @@ const ListComponent = () => {
             console.error('Error creating list:', error);
         }
     };
-    // const handleGetListByLimit = async (listId) => {
 
-    //     try {
-    //         console.log('Getting lists by limit:', limit);
-    //         const data = await getListByLimit(limit);
-    //         setLimitedLists(data);
-    //     } catch (error) {
-    //         if (error.response && error.response.status === 404) {
-    //             setLimitMessageErorr('No lists found with the given limit.');
-    //         }
-    //         console.error('Error fetching lists by limit:', error);
-    //     }
-    // };
 
     const handleGetListByName = async () => {
 
@@ -368,6 +360,8 @@ const ListComponent = () => {
             <div>
                 <TextField
                     type="text"
+                    size="small"
+                    style={{ width: '100px' }}
                     // value={appId}
                     //  onChange={(e) => setIdListDelete(e.target.value)}
                     onChange={(e) => {
@@ -376,12 +370,15 @@ const ListComponent = () => {
                     }}
                     placeholder="delete list by name"
                 />
-                <Button onClick={() => handleDeleteListById(idListDelete)}  variant="contained" color="primary" style={{ marginRight: '10px' }}>Delete list by name</Button>
+                <Button onClick={() => handleDeleteListById(idListDelete)} variant="contained" color="primary" style={{ fontSize: '0.4em' }}><span >Delete list by name</span></Button>
                 {deleteMessageErorr && <p style={{ color: 'red' }}>{deleteMessageErorr}</p>}
             </div>
             <div>
                 <TextField
                     type="text"
+                    size="small"
+                    style={{ width: '100px' }}
+                    //   size="small"
                     // value={appId}
                     onChange={(e) => {
                         setIdList(e.target.value);
@@ -390,6 +387,8 @@ const ListComponent = () => {
                     placeholder="List name"
                 />
                 <TextField
+                    size="small"
+                    style={{ width: '100px' }}
                     type="text"
                     onChange={(e) => {
                         setidAppFromList(e.target.value);
@@ -397,12 +396,14 @@ const ListComponent = () => {
                     }}
                     placeholder="App name"
                 />
-                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)}  variant="contained" color="primary" >Delete app by name</Button>
+                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)} variant="contained" color="primary" ><span>Delete app by name</span></Button>
                 {deleteAppMessageErorr && <p style={{ color: 'red' }}>{deleteAppMessageErorr}</p>}
                 {deleteListMessageErorr && <p style={{ color: 'red' }}>{deleteListMessageErorr}</p>}
             </div>
             <br></br>
             <TextField
+                size="small"
+                style={{ width: '100px' }}
                 type="text"
                 onChange={(e) => {
                     setlistId(e.target.value);
@@ -413,6 +414,8 @@ const ListComponent = () => {
                 placeholder="which applist you whant to add"
             />
             <TextField
+                size="small"
+                style={{ width: '100px' }}
                 type="text"
                 onChange={(e) => {
                     setAppId(e.target.value);
@@ -421,6 +424,8 @@ const ListComponent = () => {
                 placeholder="New applist name"
             />
             <TextField
+                size="small"
+                style={{ width: '100px' }}
                 type="text"
                 onChange={(e) => {
                     setAppDescription(e.target.value);
@@ -430,43 +435,53 @@ const ListComponent = () => {
                 placeholder="New applist description"
             />
 
-            <Button onClick={() => handleAddApp(listId)}  variant="contained" color="primary">insert ListApp</Button>
+            <Button onClick={() => handleAddApp(listId)} variant="contained" color="primary"><span>insert ListApp</span></Button>
             {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
             <br></br>
             <TextField
-                    type="text"
-                    value={newListName}
-                    onChange={(e) => setNewListName(e.target.value)}
-                    placeholder="New list name"
-                />
-                <TextField
-                    type="text"
-                    value={newListDescription}
-                    onChange={(e) => setNewListDescription(e.target.value)}
-                    placeholder="New list description"
-                />
-                <TextField
-                    type="number"
-                    value={newListLimit}
-                    onChange={(e) => setNewListLimit(e.target.value)}
-                    placeholder="Limit"
-                />
+                size="small"
+                style={{ width: '100px' }}
+                type="text"
+                value={newListName}
+                onChange={(e) => setNewListName(e.target.value)}
+                placeholder="New list name"
+            />
             <TextField
+                size="small"
+                style={{ width: '100px' }}
+                type="text"
+                value={newListDescription}
+                onChange={(e) => setNewListDescription(e.target.value)}
+                placeholder="New list description"
+            />
+            <TextField
+                size="small"
+                style={{ width: '100px' }}
+                type="number"
+                value={newListLimit}
+                onChange={(e) => setNewListLimit(e.target.value)}
+                placeholder="Limit"
+            />
+            <TextField
+                size="small"
+                style={{ width: '100px' }}
                 type="text"
                 // value={appId}
                 onChange={(e) => setAppId(e.target.value)}
                 placeholder="New list name"
             />
             <TextField
+                size="small"
+                style={{ width: '100px' }}
                 type="text"
                 onChange={(e) => setAppDescription(e.target.value)}
                 placeholder="New list description"
-            />           <Button onClick={handleCreateList}  variant="contained" color="primary">Create</Button>
+            />           <Button onClick={handleCreateList} variant="contained" color="primary"><span>Create</span></Button>
 
             <h1>Lists</h1>
             <div>
-            
-                <Button onClick={() => handleCreateList(newListName, newListDescription, newListLimit, () => fetchLists(setLists))} variant="contained" color="primary">Create List</Button>
+
+                <Button onClick={() => handleCreateList(newListName, newListDescription, newListLimit, () => fetchLists(setLists))} variant="contained" color="primary"><span>Create List</span></Button>
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -478,9 +493,21 @@ const ListComponent = () => {
                                 primary={list.id}
 
                             />
-                            <Button onClick={() => handleToggleShowApps(list.id)} variant="contained" color="primary">
+
+
+                            <Button
+                                onClick={() => handleToggleShowApps(list.id)}
+                                variant="contained"
+                                color="primary"
+                                sx={{
+                                    fontSize: '0.4em',
+                                    width: '25px',
+                                    height: '20px'
+                                }}
+                            >
                                 {showApps[list.id] ? 'Hide' : 'Show'}
                             </Button>
+
                         </ListItem>
                         <Divider variant="inset" component="li" />
 
@@ -532,14 +559,15 @@ const ListComponent = () => {
                                         type="number"
                                         min="1"
                                         value={newLimit[list.id] || ''}
-                                        // onChange={(e) => handleLimitChange(list.id, e.target.value, setNewLimit)}
+                                     
                                         onChange={(e) => handleLimitInputChange(list.id, e.target.value, setNewLimit, setError)}
                                         placeholder="New Limit"
-                                        style={{ marginRight: '10px' }}
-
-
-                                    />
+                                        style={{ marginRight: '10px', width: '100px' }}
+                                        size="small"
+ />
                                     <TextField
+                                        size="small"
+
                                         type="text"
                                         value={newDescription[list.id] || ''}
                                         // onChange={(e) => handleDescriptionChange(list.id, e.target.value, setNewDescription)
@@ -554,9 +582,9 @@ const ListComponent = () => {
                                         placeholder="New Description"
                                         style={{ marginRight: '10px' }}
                                     />
-                                    <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, () => fetchLists(setLists))} variant="contained" color="primary" style={{ marginRight: '10px' }}>Update Limit</Button>
+                                    <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, () => fetchLists(setLists))} variant="contained" color="primary" style={{ marginRight: '10px' }}><span>Update Limit</span></Button>
 
-                                    <Button onClick={() => handleUpdateDescription(list.id, newDescription, () => fetchLists(setLists))} variant="contained" color="primary">Update Description</Button>
+                                    <Button onClick={() => handleUpdateDescription(list.id, newDescription, () => fetchLists(setLists))} variant="contained" color="primary"><span>Update Description</span></Button>
                                     {addUpdateDescriptionError && <p style={{ color: 'red' }}>{addUpdateDescriptionError}</p>}
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
@@ -569,7 +597,7 @@ const ListComponent = () => {
                                                     primary={item.appName}
                                                     secondary={
                                                         <>
-                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)}variant="contained" color="primary">Delete app</Button>
+                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)} variant="contained" color="primary"><span>Delete app</span></Button>
                                                             <Typography
                                                                 sx={{ display: 'inline' }}
                                                                 component="span"
@@ -598,7 +626,9 @@ const ListComponent = () => {
                                                     value={newAppDescriptions[list.id]?.[item.id] || ''}
                                                     onChange={(e) => handleAppDescriptionChange(list.id, item.id, e.target.value, setNewAppDescriptions)}
                                                     placeholder="New App Description"
-                                                    style={{ marginRight: '10px' }}
+                                                    style={{ marginRight: '10px', width: '100px' }}
+                                                    size="small"
+
                                                 />
                                                 <Button onClick={() => handleUpdateAppDescription(list.id, item.id, newAppDescriptions, () => fetchLists(setLists))} variant="contained" color="primary">Update App Description</Button>
                                             </ListItem>
@@ -607,26 +637,30 @@ const ListComponent = () => {
                                     ))}
                                 </List>
                                 <div>
-                                                            <TextField
-             
-                                                                type="text"
-                                                                // value={appId}
-                                                                onChange={(e) => setAppId(e.target.value)}
-                                                                placeholder="New list name"
-                                                            />
-                                                            <TextField
-             
-                                                                type="text"
-                                                                onChange={(e) => setAppDescription(e.target.value)}
-                                                                placeholder="New list description"
-                                                            />
+                                    <TextField
 
-                                                            <Button onClick={() => handleAddApp(list.id)}  variant="contained" color="primary">insert ListApp</Button>
-                                                   </div>
-                                                   <ListItem>  <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="primary">Delete LIst by ID</Button></ListItem>   
+                                        type="text"
+                                        size="small"
+                                        style={{ width: '100px' }}
+                                        // value={appId}
+                                        onChange={(e) => setAppId(e.target.value)}
+                                        placeholder="New list name"
+                                    />
+                                    <TextField
+
+                                        type="text"
+                                        size="small"
+                                        style={{ width: '100px' }}
+                                        onChange={(e) => setAppDescription(e.target.value)}
+                                        placeholder="New list description"
+                                    />
+
+                                    <Button onClick={() => handleAddApp(list.id)} variant="contained" color="primary"><span>insert ListApp</span></Button>
+                                </div>
+                                <ListItem>  <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="primary"><span>Delete LIst by ID</span></Button></ListItem>
 
 
-                                
+
                                 <Divider variant="inset" component="li" />
                             </>
                         )}
@@ -634,13 +668,15 @@ const ListComponent = () => {
                 ))}
             </List>
             <h2>Convert List to String</h2>
-            <Button onClick={handleConvertListToString}  variant="contained" color="primary">Convert List to String</Button>
+            <Button onClick={handleConvertListToString} variant="contained" color="primary"><span>Convert List to String</span></Button>
             {statusString && <p>{convertedList}</p>}
 
             <h2>Check if String is in List</h2>
             <TextField
-             
+
                 type="text"
+                size="small"
+                style={{ width: '100px' }}
                 value={stringToCheck}
                 onChange={(e) => {
                     setStringToCheck(e.target.value);
@@ -649,20 +685,20 @@ const ListComponent = () => {
 
                 placeholder="Enter string to check"
             />
-            <Button onClick={handleCheckStringInList}  variant="contained" color="primary">Check String in List</Button>
+            <Button onClick={handleCheckStringInList} variant="contained" color="primary"><span>Check String in List</span></Button>
             <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p>
             {srtingMessageErorr && <p style={{ color: 'red' }}>{srtingMessageErorr}</p>}
             <div>
-{/* 
+
                 <div>
-                </div> */}
+                </div>
 
                 {/* <h2>Limited Lists</h2>
                 <TextField
              
                     type="number"
                     value={limit} */}
-                    {/* // onChange={(e) => setLimit(Number(e.target.value))}
+                {/* // onChange={(e) => setLimit(Number(e.target.value))}
                     min="1"
                     placeholder="Enter limit"
                     onChange={handleLimitInputChange}
@@ -692,14 +728,16 @@ const ListComponent = () => {
             <div>
                 <h2>get list by names</h2>
                 <TextField
-             
+
                     type="text"
                     value={searchName}
+                    size="small"
+                    style={{ width: '100px' }}
                     // onChange={(e) => setSearchName(e.target.value)}
                     onChange={handleInputChange}
                     placeholder="Enter list name"
                 />
-                <Button onClick={handleGetListByName}  variant="contained" color="primary">Get list by name</Button>
+                <Button onClick={handleGetListByName} variant="contained" color="primary"><span>Get list by name</span></Button>
                 {messageErorr && <p style={{ color: 'red' }}>{messageErorr}</p>}
                 {listByName && (
                     <div>
