@@ -1082,11 +1082,132 @@ const ListComponent = () => {
     };
 
     return (
-        <Container>
+        <Container> 
+            <div id='line'>
+             <Paper style={{ padding: '20px', marginTop: '20px', maxWidth: '400px', margin: '0 auto' }}>
+    <Typography variant="h5" component="h2" gutterBottom>
+      
+    </Typography>
+    <Button onClick={handleConvertListToString} variant="contained" color="primary" fullWidth><span className='buttonName'>
+        Convert List to String
+        </span>
+    </Button>
+    {statusString && <Typography variant="body1" style={{ marginTop: '20px' }}>{convertedList}</Typography>}
+</Paper>
+            {/* <h2>Check if String is in List</h2>
+            <TextField
+                type="text"
+                size="small"
+                style={{ width: '100px' }}
+                value={stringToCheck}
+                onChange={(e) => {
+                    setStringToCheck(e.target.value);
+                    setStringMessageError('');
+                }}
+                placeholder="Enter string to check"
+            /> */}
+            {/* <Button onClick={handleCheckStringInList} variant="contained" color="primary">Check String in List</Button> */}
+            {/* <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p> */}
+            {/* {stringMessageError && <p style={{ color: 'red' }}>{stringMessageError}</p>} */}
+            <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
+    <Typography variant="h5" component="h2" gutterBottom>
+    
+    </Typography>
+    <TextField
+        type="text"
+        size="small"
+        fullWidth
+        value={stringToCheck}
+        onChange={(e) => {
+            setStringToCheck(e.target.value);
+            setStringMessageErorr(''); // Clear error message on input change
+        }}
+        placeholder="Enter string to check"
+        style={{ marginBottom: '10px' }}
+    />
+    <Button onClick={handleCheckStringInList} variant="contained" color="primary" fullWidth><span className='buttonName'>
+        Check String in List
+        </span>
+    </Button>
+    <Typography variant="body1" style={{ marginTop: '20px' }}>
+        {isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}
+    </Typography>
+    {srtingMessageErorr && <Typography variant="body1" color="error">{srtingMessageErorr}</Typography>}
+</Paper>
+            <div>
+           {/* <TextField
+                    type="text"
+                    value={searchName}
+                    size="small"
+                    style={{ width: '100px' }}
+                    onChange={handleInputChange}
+                    placeholder="Enter list name"
+                />
+                <Button onClick={handleGetListByName} variant="contained" color="primary"><span className='buttonName'>Get List by Name</span></Button> */}
+                {/* {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
+                {listByName && (
+                    <div>
+                        <p>{listByName.id}</p>
+                        <p>Description: {listByName.description}</p>
+                        <p>Limit: {listByName.limit}</p>
+                        <p>Creation Date: {new Date(listByName.creationDate).toLocaleString()}</p>
+                        <p>Updated Date: {new Date(listByName.updatedDate).toLocaleString()}</p>
+                        <ul>
+                            {listByName.list.map((item, index) => (
+                                <li key={index}>
+                                    <p>App Name: {item.appName}</p>
+                                    <p>Description: {item.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div> */}
+                {/* )} */}
+
+                <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
+    <Typography variant="h5" component="h2" gutterBottom>
+      
+    </Typography>
+    <TextField
+        type="text"
+        size="small"
+        fullWidth
+        value={searchName}
+        onChange={handleInputChange}
+        placeholder="Enter list name"
+        style={{ marginBottom: '10px' }}
+    />
+    <Button onClick={handleGetListByName} variant="contained" color="primary" fullWidth><span className='buttonName'>
+        Get List by Name
+        </span></Button>
+        {messageError && <Typography style={{ color: 'red' }}>{messageError}</Typography>}
+    {/* {messageErorr && <Typography variant="body1" color="error" style={{ marginTop: '10px' }}>{messageErorr}</Typography>} */}
+    {listByName && (
+        <div style={{ marginTop: '20px' }}>
+            <Typography variant="body1">ID: {listByName.id}</Typography>
+            <Typography variant="body1">Description: {listByName.description}</Typography>
+            <Typography variant="body1">Limit: {listByName.limit}</Typography>
+            <Typography variant="body1">Creation Date: {new Date(listByName.creationDate).toLocaleString()}</Typography>
+            <Typography variant="body1">Updated Date: {new Date(listByName.updatedDate).toLocaleString()}</Typography>
+            <ul>
+                {listByName.list.map((item, index) => (
+                    <li key={index}>
+                        <Typography variant="body2">App Name: {item.appName}</Typography>
+                        <Typography variant="body2">Description: {item.description}</Typography>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )}
+</Paper></div></div><div id='line'>
+             <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
+        <Typography variant="h5" component="h2" gutterBottom>
+        
+        </Typography>
             <div>
                 <TextField
                     type="text"
                     size="small"
+                    fullWidth
                     style={{ width: '100px' }}
                     onChange={(e) => {
                         setIdListDelete(e.target.value);
@@ -1094,9 +1215,14 @@ const ListComponent = () => {
                     }}
                     placeholder="Delete list by name"
                 />
-                <Button onClick={() => handleDeleteListById(idListDelete)} variant="contained" color="primary" style={{ marginRight: '10px' }}>Delete list by name</Button>
+                <Button onClick={() => handleDeleteListById(idListDelete)}   variant="contained" color="primary" fullWidth style={{ marginRight: '10px' }}><span className='buttonName'>Delete list by name</span></Button>
                 {deleteMessageError && <p style={{ color: 'red' }}>{deleteMessageError}</p>}
             </div>
+            
+            </Paper>  <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
+    <Typography variant="h5" component="h2" gutterBottom>
+    
+    </Typography>
             <div>
                 <TextField
                     type="text"
@@ -1118,11 +1244,14 @@ const ListComponent = () => {
                     }}
                     placeholder="App name"
                 />
-                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)} variant="contained" color="primary"><span className='buttonName'>Delete app by name</span></Button>
+                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)}  variant="contained" color="primary" fullWidth><span className='buttonName'>Delete app by name</span></Button>
                 {deleteAppMessageError && <p style={{ color: 'red' }}>{deleteAppMessageError}</p>}
                 {deleteListMessageError && <p style={{ color: 'red' }}>{deleteListMessageError}</p>}
-            </div>
-            <br />
+            </div></Paper>
+            <br />  <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto',marginTop:'20px' }}>
+    <Typography variant="h5" component="h2" gutterBottom>
+    
+    </Typography>
             <TextField
                 size="small"
                 style={{ width: '100px' }}
@@ -1153,9 +1282,15 @@ const ListComponent = () => {
                 }}
                 placeholder="New app list description"
             />
-            <Button onClick={() => handleAddApp(listId)} variant="contained" color="primary"><span className='buttonName'>Insert ListApp</span></Button>
+            <Button onClick={() => handleAddApp(listId)}   variant="contained" color="primary" fullWidth><span className='buttonName'>Insert ListApp</span></Button>
             {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
-            <br />
+            <br /> 
+            </Paper>
+             <Paper style={{ padding: '20px', marginTop: '50px', maxWidth: '400px', margin: '0 auto'}}>
+
+    <Typography variant="h5" component="h2"style={{  marginTop:'20px'}} gutterBottom>
+    
+    </Typography>
             <TextField
                 size="small"
                 style={{ width: '100px' }}
@@ -1180,8 +1315,23 @@ const ListComponent = () => {
                 onChange={(e) => setNewListLimit(e.target.value)}
                 placeholder="Limit"
             />
-            <Button onClick={handleCreateList} variant="contained" color="primary"><span className='buttonName'>Create</span></Button>
-
+            <TextField
+                size="small"
+                style={{ width: '100px' }}
+                type="text"
+                // value={appId}
+                onChange={(e) => setAppId(e.target.value)}
+                placeholder="New list name"
+            />
+            <TextField
+                size="small"
+                style={{ width: '100px' }}
+                type="text"
+                onChange={(e) => setAppDescription(e.target.value)}
+                placeholder="New list description"
+            />
+            <Button onClick={handleCreateList}  variant="contained" color="primary" fullWidth><span className='buttonName'>Create</span></Button>
+            </Paper></div>
             <h1>Lists</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <List sx={{ width: '100%', maxWidth: 1300, bgcolor: 'background.paper' }}>
@@ -1299,151 +1449,8 @@ const ListComponent = () => {
                     </React.Fragment>
                 ))}
             </List>
-            <Paper style={{ padding: '20px', marginTop: '20px', maxWidth: '400px', margin: '0 auto' }}>
-    <Typography variant="h5" component="h2" gutterBottom>
-      
-    </Typography>
-    <Button onClick={handleConvertListToString} variant="contained" color="primary" fullWidth><span className='buttonName'>
-        Convert List to String
-        </span>
-    </Button>
-    {statusString && <Typography variant="body1" style={{ marginTop: '20px' }}>{convertedList}</Typography>}
-</Paper>
-            {/* <h2>Check if String is in List</h2>
-            <TextField
-                type="text"
-                size="small"
-                style={{ width: '100px' }}
-                value={stringToCheck}
-                onChange={(e) => {
-                    setStringToCheck(e.target.value);
-                    setStringMessageError('');
-                }}
-                placeholder="Enter string to check"
-            /> */}
-            {/* <Button onClick={handleCheckStringInList} variant="contained" color="primary">Check String in List</Button> */}
-            {/* <p>{isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}</p> */}
-            {/* {stringMessageError && <p style={{ color: 'red' }}>{stringMessageError}</p>} */}
-            <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
-    <Typography variant="h5" component="h2" gutterBottom>
-    
-    </Typography>
-    <TextField
-        type="text"
-        size="small"
-        fullWidth
-        value={stringToCheck}
-        onChange={(e) => {
-            setStringToCheck(e.target.value);
-            setStringMessageErorr(''); // Clear error message on input change
-        }}
-        placeholder="Enter string to check"
-        style={{ marginBottom: '10px' }}
-    />
-    <Button onClick={handleCheckStringInList} variant="contained" color="primary" fullWidth><span className='buttonName'>
-        Check String in List
-        </span>
-    </Button>
-    <Typography variant="body1" style={{ marginTop: '20px' }}>
-        {isInList !== null ? (isInList ? 'String is in list' : 'String is not in list') : ''}
-    </Typography>
-    {srtingMessageErorr && <Typography variant="body1" color="error">{srtingMessageErorr}</Typography>}
-</Paper>
-            <div>
-           {/* <TextField
-                    type="text"
-                    value={searchName}
-                    size="small"
-                    style={{ width: '100px' }}
-                    onChange={handleInputChange}
-                    placeholder="Enter list name"
-                />
-                <Button onClick={handleGetListByName} variant="contained" color="primary"><span className='buttonName'>Get List by Name</span></Button> */}
-                {/* {messageError && <p style={{ color: 'red' }}>{messageError}</p>}
-                {listByName && (
-                    <div>
-                        <p>{listByName.id}</p>
-                        <p>Description: {listByName.description}</p>
-                        <p>Limit: {listByName.limit}</p>
-                        <p>Creation Date: {new Date(listByName.creationDate).toLocaleString()}</p>
-                        <p>Updated Date: {new Date(listByName.updatedDate).toLocaleString()}</p>
-                        <ul>
-                            {listByName.list.map((item, index) => (
-                                <li key={index}>
-                                    <p>App Name: {item.appName}</p>
-                                    <p>Description: {item.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
-                {/* )} */}
-
-                <Paper style={{ padding: '20px', marginTop: '100px', maxWidth: '400px', margin: '0 auto' }}>
-    <Typography variant="h5" component="h2" gutterBottom>
-      
-    </Typography>
-    <TextField
-        type="text"
-        size="small"
-        fullWidth
-        value={searchName}
-        onChange={handleInputChange}
-        placeholder="Enter list name"
-        style={{ marginBottom: '10px' }}
-    />
-    <Button onClick={handleGetListByName} variant="contained" color="primary" fullWidth><span className='buttonName'>
-        Get List by Name
-        </span></Button>
-        {messageError && <Typography style={{ color: 'red' }}>{messageError}</Typography>}
-    {/* {messageErorr && <Typography variant="body1" color="error" style={{ marginTop: '10px' }}>{messageErorr}</Typography>} */}
-    {listByName && (
-        <div style={{ marginTop: '20px' }}>
-            <Typography variant="body1">ID: {listByName.id}</Typography>
-            <Typography variant="body1">Description: {listByName.description}</Typography>
-            <Typography variant="body1">Limit: {listByName.limit}</Typography>
-            <Typography variant="body1">Creation Date: {new Date(listByName.creationDate).toLocaleString()}</Typography>
-            <Typography variant="body1">Updated Date: {new Date(listByName.updatedDate).toLocaleString()}</Typography>
-            <ul>
-                {listByName.list.map((item, index) => (
-                    <li key={index}>
-                        <Typography variant="body2">App Name: {item.appName}</Typography>
-                        <Typography variant="body2">Description: {item.description}</Typography>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )}
-</Paper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
+           
+            {/* </div> */}
         </Container>
     );
 };

@@ -39,7 +39,11 @@ Button{
   height: 25px;
 }
 
-
+#line{
+  display: flex;
+  background-color: #282c34;
+  display: inline;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
