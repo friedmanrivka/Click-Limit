@@ -766,6 +766,14 @@ import React, { useEffect, useState } from 'react';
 import { Container, TextField, Button, List, ListItem, Divider, ListItemText, Typography, Paper, Grid, Box } from '@mui/material';
 import { getList, createList, deleteListById, convertListToString, isStringInList, deleteAppFromList, addApp, getListByLimit, getListByName, updateLimit, updateDescription, updateAppDescription } from './Service';
 import logo from '../images/logo.png'
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add'
+import CheckIcon from '@mui/icons-material/Check';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import UpdateIcon from '@mui/icons-material/Update';
+import CreateIcon from '@mui/icons-material/Create';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const ListComponent = () => {
     const [limitedLists, setLimitedLists] = useState([]);
@@ -875,6 +883,15 @@ const ListComponent = () => {
     const handleCreateList = async () => {
         if (!newListName.trim()) {
             setCreateListError('List name is required.');
+            return;
+        }
+        if (newListName.length < 2) {
+            setCreateListError('List name must be at least 2 characters long.');
+            return;
+        }
+        
+        if (newListDescription.length < 4) {
+            setCreateListError('List description must be at least 4 characters long.');
             return;
         }
 
@@ -1093,7 +1110,7 @@ const ListComponent = () => {
     <Typography variant="h5" component="h2" gutterBottom>
       
     </Typography>
-    <Button onClick={handleConvertListToString} variant="contained" color="primary" fullWidth><span className='buttonName'>
+    <Button onClick={handleConvertListToString} variant="contained" startIcon={<AutorenewIcon />} color="primary" fullWidth><span className='buttonName'>
         Convert List to String
         </span>
     </Button>
@@ -1117,7 +1134,7 @@ const ListComponent = () => {
         placeholder="Enter string to check"
         style={{ marginBottom: '10px' }}
     />
-    <Button onClick={handleCheckStringInList} variant="contained" color="primary" fullWidth><span className='buttonName'>
+    <Button onClick={handleCheckStringInList} variant="contained" startIcon={<CheckIcon />} color="primary" fullWidth><span className='buttonName'>
         Check String in List
         </span>
     </Button>
@@ -1186,7 +1203,7 @@ const ListComponent = () => {
                     }}
                     placeholder="Delete list by name"
                 />
-                <Button onClick={() => handleDeleteListById(idListDelete)}   variant="contained" color="primary" fullWidth style={{ marginRight: '10px' }}><span className='buttonName'>Delete list by name</span></Button>
+                <Button onClick={() => handleDeleteListById(idListDelete)}   variant="contained" startIcon={<DeleteIcon />} color="primary" fullWidth style={{ marginRight: '10px' }}><span className='buttonName'>List by name</span></Button>
                 {deleteMessageError && <p style={{ color: 'red' }}>{deleteMessageError}</p>}
             </div>
             
@@ -1216,7 +1233,7 @@ const ListComponent = () => {
                     }}
                     placeholder="App name"
                 />
-                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)}  variant="contained" color="primary" fullWidth><span className='buttonName'>Delete app by name</span></Button>
+                <Button onClick={() => handleDeleteAppFromListByName(idList, idAppFromList)}  variant="contained" startIcon={<DeleteIcon />} color="primary" fullWidth><span className='buttonName'>App by name</span></Button>
                 {deleteAppMessageError && <p style={{ color: 'red' }}>{deleteAppMessageError}</p>}
                 {deleteListMessageError && <p style={{ color: 'red' }}>{deleteListMessageError}</p>}
             </div></Paper>
@@ -1254,7 +1271,7 @@ const ListComponent = () => {
                 }}
                 placeholder="New app list description"
             />
-            <Button onClick={() => handleAddApp(listId)}   variant="contained" color="primary" fullWidth><span className='buttonName'>Insert ListApp</span></Button>
+            <Button onClick={() => handleAddApp(listId)}   variant="contained" startIcon={<AddIcon />} color="primary" fullWidth><span className='buttonName'>ListApp</span></Button>
             {addAppError && <p style={{ color: 'red' }}>{addAppError}</p>}
             <br /> 
             </Paper>
@@ -1304,7 +1321,8 @@ const ListComponent = () => {
                 onChange={(e) => setAppDescription(e.target.value)}
                 placeholder="New list description"
             />
-            <Button onClick={handleCreateList}  variant="contained" color="primary" fullWidth><span className='buttonName'>Create</span></Button>
+            {createListError && <p style={{ color: 'red' }}>{createListError}</p>};
+            <Button onClick={handleCreateList}  variant="contained" startIcon={<CreateIcon />} color="primary" fullWidth><span className='buttonName'>Create</span></Button>
             </Paper></div></div> 
             <h1>Lists</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -1315,8 +1333,8 @@ const ListComponent = () => {
                             <ListItemText
                                 primary={list.id}
                             />
-                            <Button onClick={() => handleToggleShowApps(list.id)} variant="contained" color="primary">
-                                {showApps[list.id] ? 'Hide' : 'Show'}
+                            <Button onClick={() => handleToggleShowApps(list.id)} variant="contained" startIcon={showApps[list.id] ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />} color="primary">
+                            {showApps[list.id] ?  '' : ''}
                             </Button>
                         </ListItem>
                         <Divider variant="inset" component="li" />
@@ -1359,8 +1377,8 @@ const ListComponent = () => {
                                         placeholder="New Description"
                                         style={{ marginRight: '10px' }}
                                     />
-                                    <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, fetchLists)} variant="contained" color="primary" style={{ marginRight: '10px' }}>Update Limit</Button>
-                                    <Button onClick={() => handleUpdateDescription(list.id, newDescription, fetchLists)} variant="contained" color="primary"><span className='buttonName'>Update Description</span></Button>
+                                    <Button onClick={() => handleUpdateLimit(list.id, newLimit, setError, fetchLists)} variant="contained" startIcon={<UpdateIcon />} color="primary" style={{ marginRight: '10px' }}>Limit</Button>
+                                    <Button onClick={() => handleUpdateDescription(list.id, newDescription, fetchLists)} variant="contained" startIcon={<UpdateIcon />} color="primary"><span className='buttonName'>Description</span></Button>
                                     {addUpdateDescriptionError && <p style={{ color: 'red' }}>{addUpdateDescriptionError}</p>}
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
@@ -1372,7 +1390,7 @@ const ListComponent = () => {
                                                     primary={item.appName}
                                                     secondary={
                                                         <>
-                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)} variant="contained" color="primary"><span className='buttonName'>Delete app</span></Button>
+                                                            <Button onClick={() => handleDeleteAppFromListByName(list.id, item.id)} variant="contained" startIcon={<DeleteIcon />} color="primary"><span className='buttonName'>App</span></Button>
                                                             <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
                                                                 Id: {item.id}
                                                             </Typography><br />
@@ -1393,7 +1411,7 @@ const ListComponent = () => {
                                                     style={{ marginRight: '10px', width: '100px' }}
                                                     size="small"
                                                 />
-                                                <Button onClick={() => handleUpdateAppDescription(list.id, item.id, newAppDescriptions, fetchLists)} variant="contained" color="primary"><span className='buttonName'>Update App Description</span></Button>
+                                                <Button onClick={() => handleUpdateAppDescription(list.id, item.id, newAppDescriptions, fetchLists)} variant="contained" startIcon={<UpdateIcon />} color="primary"><span className='buttonName'>Update App Description</span></Button>
                                             </ListItem>
                                             <Divider variant="inset" component="li" />
                                         </React.Fragment>
@@ -1413,9 +1431,9 @@ const ListComponent = () => {
                                     onChange={(e) => setAppDescription(e.target.value)}
                                     placeholder="New app description"
                                 />
-                                <Button onClick={() => handleAddApp(list.id)} variant="contained" color="primary"><span className='buttonName'>Insert ListApp</span></Button>
+                                <Button onClick={() => handleAddApp(list.id)} variant="contained" startIcon={<AddIcon />} color="primary"><span className='buttonName'>ListApp</span></Button>
                                 <ListItem>
-                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="primary"><span className='buttonName'>Delete List by ID</span></Button>
+                                    <Button onClick={() => handleDeleteListById(list.id)} variant="contained" color="primary"><span className='buttonName'>List by ID</span></Button>
                                 </ListItem>
                                 <Divider variant="inset" component="li" />
                             </>
